@@ -37,7 +37,31 @@ $$
 
 #### Where:
 - $L$ is the loss function
-- 
+- $N$ is the number of samples
+- $y$ is the true value
+- $X$ is the input matrix
+- $w$ is the weight matrix
+- $b$ is the bias matrix
+- $y$ is the true value matrix
+- $n$ is the number of neurons in the layer
+- $\exp$ is the exponential function
+- $\log$ is the natural logarithm
+- $\max$ is the maximum function that returns the maximum of two values
+- $\sum$ is the sum function that returns the sum of the values in a matrix
+- $\forall$ is the for all function that applies a function to all the values in a matrix
+- $i$ is the index of the input
+- $j$ is the index of the neuron in the hidden layer
+- $k$ is the index of the neuron in the output layer
+- $w_{1,i,j}$ is the weight of the connection between the input and the hidden layer
+- $w_{2,i,j}$ is the weight of the connection between the hidden layer and the output layer
+- $w_{3,i,j}$ is the weight of the connection between the output layer and the prediction
+- $b_{1,j}$ is the bias of the neuron in the hidden layer
+- $b_{2,j}$ is the bias of the neuron in the output layer
+- $b_{3,j}$ is the bias of the prediction
+- $n_0$ is the number of inputs
+- $n_1$ is the number of neurons in the hidden layer
+- $n_2$ is the number of neurons in the output layer
+- $n_3$ is the number of classes
 
 ---
 
@@ -218,4 +242,7 @@ $$
 
 - [Neural Newtorks from Scratch](https://nnfs.io/)
 - Kinsley, H., & Kukieła, D. (2020). Neural Networks from scratch in Python. Harrison Kinsley. 
-- Russell, S. J., Norvig, P., Chang, M.-W., Devlin, J., Dragan, A., Forsyth, D., Goodfellow, I., Malik, J. M., Mansinghka, V., Pearl, J., & Wooldridge, M. (2022). Artificial Intelligence: A modern approach, fourth edition Stuart J. Russell and Peter Norvin; contribuiting writers, Ming-Wei Chang ... et al.. (4th ed.). Pearson Education. 
+- Russell, S. J., Norvig, P., Chang, M.-W., Devlin, J., Dragan, A., Forsyth, D., Goodfellow, I., 
+Malik, J. M., Mansinghka, V., Pearl, J., & Wooldridge, M. (2022). Artificial Intelligence: A 
+modern approach, fourth edition Stuart J. Russell and Peter Norvin; contribuiting writers, 
+Ming-Wei Chang ... et al.. (4th ed.). Pearson Education. 
