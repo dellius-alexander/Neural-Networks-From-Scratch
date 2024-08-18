@@ -75,9 +75,9 @@ $$
 
 $$
 \begin{align*}
-\text{``Predictions``} & = \text{Activation Function}(\text{weights} \cdot \text{inputs} + \text{Bias}) \\
-\text{``Weighted Sum of Inputs w/ Bias``} & = \sigma(\sum_{i=1}^{n} w_i \cdot x_i + b) \\
-\text{``Weighted Sum of Inputs w/ Bias``} & = \sigma(w_1 \cdot x_1 + w_2 \cdot x_2 + . . . + w_n \cdot x_n + b)
+\text{Predictions} & = \text{Activation Function}(\text{weights} \cdot \text{inputs} + \text{Bias}) \\
+\text{Weighted Sum of Inputs w/ Bias} & = \sigma(\sum_{i=1}^{n} w_i \cdot x_i + b) \\
+\text{Weighted Sum of Inputs w/ Bias} & = \sigma(w_1 \cdot x_1 + w_2 \cdot x_2 + . . . + w_n \cdot x_n + b)
 \end{align*}
 $$
 
