@@ -1,5 +1,5 @@
 """
-activations.py
+activation.py
 ==============
 
 This module contains implementations of various activation functions commonly used in neural networks and deep learning. Each activation function is implemented as a class that inherits from an abstract base class `ActivationFunction`, which defines the interface for activation functions, including the methods for computing the activation and its derivative.
@@ -87,6 +87,14 @@ class Sigmoid(ActivationFunction):
     """
     Implements the Sigmoid activation function.
 
+    ```markdown
+    $$
+    \begin{align*}
+    \sigma(x) = \frac{1}{1 + e^{-x}}
+    \end{align*}
+    $$
+    ```
+
     Methods:
         - __call__(x: np.ndarray) -> np.ndarray: Computes the Sigmoid function: 1 / (1 + exp(-x)).
         - derivative(x: np.ndarray) -> np.ndarray: Computes the derivative of the Sigmoid function.
@@ -95,6 +103,8 @@ class Sigmoid(ActivationFunction):
     def __call__(self, x: np.ndarray) -> np.ndarray:
         """
         Computes the Sigmoid activation function.
+
+        $\sigma(x) = \frac{1}{1 + e^{-x}}$
 
         :param x: (np.ndarray) Input array of any shape.
         :return: (np.ndarray) The Sigmoid function applied to each element of the input.
