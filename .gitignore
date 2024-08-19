@@ -324,7 +324,7 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 
-/src/saved_models/**
-/src/datasets/**
+/notebooks/saved_models/**
+/notebooks/datasets/**
 
 

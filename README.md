@@ -1,10 +1,12 @@
 # Neural Network From Scratch
 
+---
 
-# Neural Networks
+### Table of Contents
 
-## A mathematical model of a neural network is a collection of neurons that are connected in layers
+- [Cross Entropy Loss](./notebooks/MLFunctions.ipynb#cross-entropy-loss-function)
 
+---
 ### A neural network is a collection of neurons that are connected in layers.
 - A neural network has an input layer, hidden layers, and an output layer.
 - The input layer is the first layer of the neural network.
@@ -177,7 +179,7 @@ predictions = ActivationFunction(output)
 
 ---
 
-## References
+### References
 
 ---
 
