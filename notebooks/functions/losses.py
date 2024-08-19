@@ -35,3 +35,17 @@ def sort_cross_entropy_loss(__predicted_probs: np.ndarray, __cross_entropy_losse
     __sorted_probs = np.array(list(__sorted_dict.keys()))
     __sorted_losses = np.array(list(__sorted_dict.values()))
     return __sorted_probs, __sorted_losses
+
+
+def mean_square_error(y_true: ndarray, y_pred: ndarray) -> float:
+    """
+    Calculate the Mean Square Error (MSE) loss between the true and predicted values.
+
+    :param y_true: (ndarray) - The true labels or values.
+    :param y_pred: (ndarray) - The predicted labels or values.
+    :returns: float: The mean square error loss.
+    """
+    # Calculate the mean of the squared differences
+    __mse = np.mean((y_pred - y_true) ** 2)
+    print(__mse)
+    return __mse
