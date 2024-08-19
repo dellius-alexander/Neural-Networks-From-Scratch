@@ -4,11 +4,18 @@
 
 ### Table of Contents
 
-- [Cross Entropy Loss](./notebooks/MLFunctions.ipynb#cross-entropy-loss-function)
+
+- [Cross Entropy Loss](./notebooks/LossFunctions.ipynb#cross-entropy-loss-function)
+- Activation Functions:
+  - [Softmax](./notebooks/Activations.ipynb)
 
 ---
 ### A neural network is a collection of neurons that are connected in layers.
-- A neural network has an input layer, hidden layers, and an output layer.
+- A neural network has an `input layer`, `hidden layers`, and an `output layer`.
+- Each neuron in a neural network is a called a `node`, but by convention, 
+we refer to nodes as `units`. A `unit` is a `node (neuron)` in a neural network that 
+takes an input, calculates the weighted sum of the inputs from predecessor 
+nodes and then applies a nonlinear function to produce its output.
 - The input layer is the first layer of the neural network.
     - The input layer has neurons that take the input to the neural network.
     - **Note**: The input to the neural network is the data that the network is trained on. \
@@ -102,6 +109,42 @@ $$
 
 The output of the layer of neurons is a list of predictions, one for each 
 neuron in the layer.
+
+---
+
+### Example of a layer of neurons with 4 inputs, 1 bias and 1 neurons:
+
+
+```mermaid
+graph LR
+    subgraph Hidden Layer
+        %% Neuron Computation
+        C[Neuron] --> D["Dot Product(inputs * weights) + Bias"]
+        D["Dot Product(inputs * weights) + Bias"] --> E[Activation Function]
+    end
+    
+    subgraph Input Layer 
+        %% Inputs
+        A1["Input 1 (x1)"] -->|"Weight 1 (w1)"| C[Neuron]
+        A2["Input 2 (x2)"] -->|"Weight 2 (w2)"| C[Neuron]
+        A3["Input 3 (x3)"] -->|"Weight 3 (w3)"| C[Neuron]
+        A4["Input 4 (x4)"] -->|"Weight 4 (w4)"| C[Neuron]
+        %% Bias
+        B["Bias (b)"] -->|"Bias +"| C[Neuron]
+    end
+
+
+    %% Outputs
+    E[Activation Function] --> F[Output]
+```
+
+#### Explanation:
+- The input layer has 4 inputs and 1 bias.
+- The hidden layer has 1 neuron.
+- The neuron takes the inputs, calculates the weighted sum of the inputs and bias, applies the activation function, and produces the output.
+- The output of the hidden layer is the prediction of the neuron.
+- The output of the hidden layer is the output of the layer(s) of neurons.
+
 
 ---
 
