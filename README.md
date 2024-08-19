@@ -178,27 +178,11 @@ Where:
 - $w$ is the weight
 - $x$ is the input
 - $b$ is the bias
-- $a$ is the output of the activation function
+- $a$ is the output of the activation function or prediction
 - $\sigma$ is the activation function
 - $\cdot$ is the dot product
 - $w \cdot x + b$ is the weighted sum of inputs and bias
-- $a$ is the prediction
-- $y$ is the true value
-- $L$ is the loss function
-- $J$ is the cost function
-- $\eta$ is the learning rate
-- $\nabla$ is the gradient
-- $\partial$ is the partial derivative
-- $N$ is the number of samples
-- $m$ is the number of features
-- $h$ is the number of neurons in the hidden layer
-- $K$ is the number of classes
-- $X$ is the input matrix
-- $W$ is the weight matrix
-- $B$ is the bias matrix
-- $Z$ is the output of the linear function
-- $A$ is the output of the activation function
-- $Y$ is the true value matrix
+
 
 ---
 
