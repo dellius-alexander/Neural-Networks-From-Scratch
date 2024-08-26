@@ -152,10 +152,11 @@ nodes and then applies a nonlinear function to produce its output.
 ---
 
 $$
-\begin{equation}
-L = -\sum_{l=1}^{N} y_l \log \left( \frac{\exp\left(\sum_{i=1}^{n_2}\left(\forall_{j=1}^{n_2} \max\left(0,\sum_{i=1}^{n_1}\left(\forall_{j=1}^{n_1} \max\left(0,\sum_{i=1}^{n_0} X_i w_{1,i,j} + b_{1,j}\right)\right)w_{2,i,j} + b_{2,j}\right)\right)w_{3,i,j} + b_{3,j}\right)}{\sum_{k=1}^{n_3} \exp\left(\sum_{i=1}^{n_2}\left(\forall_{j=1}^{n_2} \max\left(0,\sum_{i=1}^{n_1}\left(\forall_{j=1}^{n_1} \max\left(0,\sum_{i=1}^{n_0} X_i w_{1,i,j} + b_{1,j}\right)\right)w_{2,i,j} + b_{2,k}\right)\right)w_{3,i,k} + b_{3,k}\right)}\right)
-\end{equation}
+\begin{align*}
+L = -\sum_{l=1}^{N} y_l \log \left( \forall^{n_{3}}_{j=1} \frac{e^{\sum_{i=1}^{n_2} \left(\forall_{j=1}^{n_2} \max \left(0, \sum_{i=1}^{n_1} \left(\forall_{j=1}^{n_1} \max \left(0, \sum_{i=1}^{n_0} X_i w_{1,i,j} + b_{1,j} \right) \right)_{i} w_{2,i,j} + b_{2,j} \right) \right)_{i} w_{3,i,j} + b_{3,j}}}{\sum_{k=1}^{n_3} e^{\sum_{i=1}^{n_2} \left(\forall_{j=1}^{n_2} \max \left(0, \sum_{i=1}^{n_1} \left(\forall_{j=1}^{n_1} \max \left(0, \sum_{i=1}^{n_0} X_i w_{1,i,j} + b_{1,j} \right) \right)_{i} w_{2,i,j} + b_{2,k} \right) \right)_{i} w_{3,i,k} + b_{3,k}}} \right)
+\end{align*}
 $$
+
 
 #### Where:
 - $L$ is the loss function
@@ -177,10 +178,10 @@ $$
 - $w_{1,i,j}$ is the weight of the connection between the input and the hidden layer
 - $w_{2,i,j}$ is the weight of the connection between the hidden layer and the output layer
 - $w_{3,i,j}$ is the weight of the connection between the output layer and the prediction
+- $w_{3,i,k}$ is the weight of the connection between the output layer and the prediction
 - $b_{1,j}$ is the bias of the neuron in the hidden layer
 - $b_{2,j}$ is the bias of the neuron in the output layer
 - $b_{3,j}$ is the bias of the prediction
-- $w_{3,i,k}$ is the weight of the connection between the output layer and the prediction
 - $b_{3,k}$ is the bias of the prediction
 - $n_0$ is the number of inputs
 - $n_1$ is the number of neurons in the hidden layer
