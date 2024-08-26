@@ -42,7 +42,7 @@ consciousness.
 
 ![Neuron](./assets/images/neuron.png "Neuron")
 Figure 1: A neuron is a specialized cell that processes and transmits information through 
-electrochemical signals. <sup>[[1]](#references)</sup>
+electrochemical signals. <sup>[[3]](#references)</sup>
 
 ---
 
