@@ -48,6 +48,8 @@ def encode(
 
 
 
+
+
 if __name__ == "__main__":
     labels = ["cat", "dog", "fish", "elephant", "lion", "tiger", "bear"]
     encoded_labels = encode(labels)
