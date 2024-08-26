@@ -180,6 +180,8 @@ $$
 - $b_{1,j}$ is the bias of the neuron in the hidden layer
 - $b_{2,j}$ is the bias of the neuron in the output layer
 - $b_{3,j}$ is the bias of the prediction
+- $w_{3,i,k}$ is the weight of the connection between the output layer and the prediction
+- $b_{3,k}$ is the bias of the prediction
 - $n_0$ is the number of inputs
 - $n_1$ is the number of neurons in the hidden layer
 - $n_2$ is the number of neurons in the output layer
