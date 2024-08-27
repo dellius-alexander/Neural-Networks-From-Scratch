@@ -3,7 +3,7 @@
 
 import json
 from _weakref import ReferenceType
-
+import numpy as np
 from datetime import datetime, date, timedelta, time
 from typing import Any
 from uuid import UUID
@@ -40,7 +40,12 @@ class CustomJSONEncoder(json.JSONEncoder):
                 return (datetime.min + obj).time()
             if isinstance(obj, time):
                 return obj.isoformat()
-
+            if isinstance(obj, np.ndarray):
+                return obj.tolist()
+            if isinstance(obj, np.int64):
+                return int(obj)
+            if isinstance(obj, np.float64):
+                return float(obj)
             # Handle Built-in types serialization
             if isinstance(obj, tuple):
                 return list(obj)
@@ -62,7 +67,6 @@ class CustomJSONEncoder(json.JSONEncoder):
                 return obj
             if isinstance(obj, type):
                 return obj.__name__
-
             # Handle objects has attribute "<attribute>" serialization
             if hasattr(obj, 'to_dict'):
                 return obj.to_dict()
@@ -72,10 +76,16 @@ class CustomJSONEncoder(json.JSONEncoder):
                 return obj.body
             if hasattr(obj, "__iter__"):
                 return list(obj)
+            if hasattr(obj, "__str__"):
+                return str(obj)
+            if hasattr(obj, "__repr__"):
+                return repr(obj)
+            if hasattr(obj, "int"):
+                return int(obj)
 
             # Handle default serialization
-            log.debug(f"Default: Type not handled - \n{type(obj)}")
+            log.debug(f"Default: Type not handled - \n{type(obj)} \n{obj}")
             return super().default(obj)
         except Exception as e:
-            return f"Error encoding object: {str(e)}"
+            return f"Error encoding object: {type(e)} \n{e}"
 # --------------------------------------------------------------
