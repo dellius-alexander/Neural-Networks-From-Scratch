@@ -201,9 +201,10 @@ A `layer of neuron(s)` is a collection of neurons that take the same number of i
 
 $$
 \begin{align*}
+\text{Weighted Sum of Inputs + Bias} & = \sigma \left(\sum_{i=1}^{n} w_i \cdot x_i + b \right) \\
+\text{Weighted Sum of Inputs + Bias} & = \sigma \left(w_1 \cdot x_1 + w_2 \cdot x_2 + . . . + w_n \cdot x_n + b \right) \\
 \text{Predictions} & = \text{Activation Function} \left(\text{weights} \cdot \text{inputs} + \text{Bias} \right) \\
-\text{Weighted Sum of Inputs w/ Bias} & = \sigma \left(\sum_{i=1}^{n} w_i \cdot x_i + b \right) \\
-\text{Weighted Sum of Inputs w/ Bias} & = \sigma \left(w_1 \cdot x_1 + w_2 \cdot x_2 + . . . + w_n \cdot x_n + b \right) 
+\text{Predictions} & = \text{Activation Function} \left(\text{dot product of weights and inputs} + \text{Bias} \right)
 \end{align*}
 $$
 
