@@ -8,9 +8,9 @@
   - [Neuroscience](#neuroscience)
 - [A Neural Network](#a-neural-network)
 - [A Neural Network’s forward pass](#a-neural-networks-forward-pass)
-- [Cross Entropy Loss](./notebooks/LossFunctions.ipynb#cross-entropy-loss-function)
+- [Loss Functions](./notebooks/LossFunctions.ipynb#cross-entropy-loss-function)
 - Activation Functions:
-  - [Softmax](./notebooks/Activations.ipynb)
+  - [Softmax](./notebooks/Activations.ipynb#softmax)
 
 ---
 
