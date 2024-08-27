@@ -153,9 +153,9 @@ nodes and then applies a nonlinear function to produce its output.
 
 $$
 \begin{align*}
-L = - \sum_{l=1}^{N} y_l \log \left( \forall_{j=1}^{n_3} \frac{e^{\sum_{i=1}^{n_2} \max \left(0, \sum_{i=1}^{n_1} \max \left(0, \sum_{i=1}^{n_0} X_i w_{1,i,j} + b_{1,j} \right) w_{2,i,j} + b_{2,j} \right) w_{3,i,j} + b_{3,j}}}
-{\sum_{k=1}^{n_3} e^{\sum_{i=1}^{n_2} \max \left(0, \sum_{i=1}^{n_1} \max \left(0, \sum_{i=1}^{n_0} X_i w_{1,i,k} + b_{1,k} \right) w_{2,i,k} + b_{2,k} \right) w_{3,i,k} + b_{3,k}}} \right) \text{,} \\
-\text{where } L = \text{Loss Function} 
+L = - \sum_{l=1}^{N} y_l \log \left( \forall_{j=1}^{n_3} \left[ \frac{e^{\sum_{i=1}^{n_2} \max \left(0, \sum_{i=1}^{n_1} \max \left(0, \sum_{i=1}^{n_0} X_i w_{1,i,j} + b_{1,j} \right) w_{2,i,j} + b_{2,j} \right) w_{3,i,j} + b_{3,j}}}
+{\sum_{k=1}^{n_3} e^{\sum_{i=1}^{n_2} \max \left(0, \sum_{i=1}^{n_1} \max \left(0, \sum_{i=1}^{n_0} X_i w_{1,i,k} + b_{1,k} \right) w_{2,i,k} + b_{2,k} \right) w_{3,i,k} + b_{3,k}}} \right] \right)  \text{,} \\
+\text{where L}  = \text{Loss Function} 
 \end{align*}
 $$
 
@@ -176,7 +176,8 @@ $$
 - $\log$ is the natural logarithm
 - $\max$ is the maximum function that returns the maximum of two values
 - $\sum$ is the sum function that returns the sum of the values in a matrix
-- $\forall$ is the for all function that applies a function to all the values in a matrix
+- $\forall_{j=1}^{n_3}$ For every index $j$ in the range from 1 to $n_3$, the following 
+operation or condition holds.
 - $i$ is the index of the input
 - $j$ is the index of the neuron in the hidden layer
 - $k$ is the index of the neuron in the output layer
