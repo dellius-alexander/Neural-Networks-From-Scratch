@@ -151,11 +151,13 @@ nodes and then applies a nonlinear function to produce its output.
 
 ---
 
-$
-\begin{align*}
-\text{L} &= -\sum_{l=1}^{N} y_l \log \left(\forall_{j=1}^{n_3} \frac{ e^{ \sum_{i=1}^{n_2} \left(\forall_{j=1}^{n_2} \max \left(0, \sum_{i=1}^{n_1} \left(\forall_{j=1}^{n_1} \max \left(0, \sum_{i=1}^{n_0} X_i w_{1,i,j} + b_{1,j} \right) \right)_{i} w_{2,i,j} + b_{2,j} \right) \right)_{i} w_{3,i,j} + b_{3,j}}} {\sum_{k=1}^{n_3} e^{\sum_{i=1}^{n_2} \left(\forall_{j=1}^{n_2} \max \left(0, \sum_{i=1}^{n_1} \left(\forall_{j=1}^{n_1} \max \left(0, \sum_{i=1}^{n_0} X_i w_{1,i,j} + b_{1,j} \right) \right)_{i} w_{2,i,j} + b_{2,k} \right) \right)_{i} w_{3,i,k} + b_{3,k}}} \right)
-\end{align*}
-$
+$$
+\begin{equation*}
+\text{L} &= - \sum_{l=1}^{N} y_l \log \left(\forall_{j=1}^{n_3} 
+\frac{ e^{\sum_{i=1}^{n_2} \left(\forall_{j=1}^{n_2} \max \left(0, \sum_{i=1}^{n_1} \left(\forall_{j=1}^{n_1} \max \left(0, \sum_{i=1}^{n_0} X_i w_{1,i,j} + b_{1,j} \right) \right)_{i} w_{2,i,j} + b_{2,j} \right) \right)_{i} w_{3,i,j} + b_{3,j}}} 
+{\sum_{k=1}^{n_3} e^{\sum_{i=1}^{n_2} \left(\forall_{j=1}^{n_2} \max \left(0, \sum_{i=1}^{n_1} \left(\forall_{j=1}^{n_1} \max \left(0, \sum_{i=1}^{n_0} X_i w_{1,i,j} + b_{1,j} \right) \right)_{i} w_{2,i,j} + b_{2,k} \right) \right)_{i} w_{3,i,k} + b_{3,k}}}
+\end{equation*}
+$$
 
 #### Where:
 - $L$ is the loss function
