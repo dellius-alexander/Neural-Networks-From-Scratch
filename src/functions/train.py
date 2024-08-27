@@ -1,4 +1,4 @@
-from notebooks.functions.activation import ActivationFunction
+from src.functions.activation import ActivationFunction
 import numpy as np
 
 
