@@ -149,7 +149,7 @@ nodes and then applies a nonlinear function to produce its output.
 - The output of the neural network is the prediction of the network.
 - The prediction of the network is the output of the last layer of neurons.
 
-#### Equation of Forward Pass:
+#### Equation of Forward Pass <sup>[[2]](#references)</sup>:
 
 $$
 \begin{align*}
@@ -158,6 +158,8 @@ L = - \sum_{l=1}^{N} y_l \log \left( \forall_{j=1}^{n_3} \frac{e^{\sum_{i=1}^{n_
 \text{where } L = \text{Loss Function} 
 \end{align*}
 $$
+
+
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 
