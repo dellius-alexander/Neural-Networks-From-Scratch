@@ -205,9 +205,9 @@ A `layer of neuron(s)` is a collection of neurons that take the same number of i
 
 $$
 \begin{align*}
-\text{Predictions} & = \text{Activation Function}(\text{weights} \cdot \text{inputs} + \text{Bias}) \\
-\text{Weighted Sum of Inputs w/ Bias} & = \sigma(\sum_{i=1}^{n} w_i \cdot x_i + b) \\
-\text{Weighted Sum of Inputs w/ Bias} & = \sigma(w_1 \cdot x_1 + w_2 \cdot x_2 + . . . + w_n \cdot x_n + b)
+\text{Predictions} & = \text{Activation Function} \left(\text{weights} \cdot \text{inputs} + \text{Bias} \right) \\
+\text{Weighted Sum of Inputs w/ Bias} & = \sigma \left(\sum_{i=1}^{n} w_i \cdot x_i + b \right) \\
+\text{Weighted Sum of Inputs w/ Bias} & = \sigma \left(w_1 \cdot x_1 + w_2 \cdot x_2 + . . . + w_n \cdot x_n + b \right) 
 \end{align*}
 $$
 
@@ -230,42 +230,6 @@ $$
 
 The output of the layer of neurons is a list of predictions, one for each 
 neuron in the layer.
-
----
-
-#### Example of a layer of neurons with 4 inputs, 1 bias and 1 neurons:
-
-
-```mermaid
-graph LR
-    subgraph Hidden Layer
-        %% Neuron Computation
-        C[Neuron] --> D["Dot Product(inputs * weights) + Bias"]
-        D["Dot Product(inputs * weights) + Bias"] --> E[Activation Function]
-    end
-    
-    subgraph Input Layer 
-        %% Inputs
-        A1["Input 1 (x1)"] -->|"Weight 1 (w1)"| C[Neuron]
-        A2["Input 2 (x2)"] -->|"Weight 2 (w2)"| C[Neuron]
-        A3["Input 3 (x3)"] -->|"Weight 3 (w3)"| C[Neuron]
-        A4["Input 4 (x4)"] -->|"Weight 4 (w4)"| C[Neuron]
-        %% Bias
-        B["Bias (b)"] -->|"Bias +"| C[Neuron]
-    end
-
-
-    %% Outputs
-    E[Activation Function] --> F[Output]
-```
-
-#### Explanation:
-- The input layer has 4 inputs and 1 bias.
-- The hidden layer has 1 neuron.
-- The neuron takes the inputs, calculates the weighted sum of the inputs and bias, applies the activation function, and produces the output.
-- The output of the hidden layer is the prediction of the neuron.
-- The output of the hidden layer is the output of the layer(s) of neurons.
-
 
 ---
 
@@ -303,6 +267,42 @@ Where:
 - $\sigma$ is the activation function
 - $\cdot$ is the dot product
 - $w \cdot x + b$ is the weighted sum of inputs and bias
+
+
+---
+
+#### Example of a layer of neurons with 4 inputs, 1 bias and 1 neurons:
+
+
+```mermaid
+graph LR
+    subgraph Hidden Layer
+        %% Neuron Computation
+        C[Neuron] --> D["Dot Product(inputs * weights) + Bias"]
+        D["Dot Product(inputs * weights) + Bias"] --> E[Activation Function]
+    end
+    
+    subgraph Input Layer 
+        %% Inputs
+        A1["Input 1 (x1)"] -->|"Weight 1 (w1)"| C[Neuron]
+        A2["Input 2 (x2)"] -->|"Weight 2 (w2)"| C[Neuron]
+        A3["Input 3 (x3)"] -->|"Weight 3 (w3)"| C[Neuron]
+        A4["Input 4 (x4)"] -->|"Weight 4 (w4)"| C[Neuron]
+        %% Bias
+        B["Bias (b)"] -->|"Bias +"| C[Neuron]
+    end
+
+
+    %% Outputs
+    E[Activation Function] --> F[Output]
+```
+
+#### Explanation:
+- The input layer has 4 inputs and 1 bias.
+- The hidden layer has 1 neuron.
+- The neuron takes the inputs, calculates the weighted sum of the inputs and bias, applies the activation function, and produces the output.
+- The output of the hidden layer is the prediction of the neuron.
+- The output of the hidden layer is the output of the layer(s) of neurons.
 
 
 ---
