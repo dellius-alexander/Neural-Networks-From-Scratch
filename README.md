@@ -151,12 +151,12 @@ nodes and then applies a nonlinear function to produce its output.
 
 #### Equation of Forward Pass <sup>[[2]](#references)</sup>:
 
-$
+$$
 \begin{align*}
 L = - \sum_{l=1}^{N} y_l \log \left( \forall_{j=1}^{n_3} \left[ \frac{e^{\sum_{i=1}^{n_2} \max \left(0, \sum_{i=1}^{n_1} \max \left(0, \sum_{i=1}^{n_0} X_i w_{1,i,j} + b_{1,j} \right) w_{2,i,j} + b_{2,j} \right) w_{3,i,j} + b_{3,j}}}
 {\sum_{k=1}^{n_3} e^{\sum_{i=1}^{n_2} \max \left(0, \sum_{i=1}^{n_1} \max \left(0, \sum_{i=1}^{n_0} X_i w_{1,i,k} + b_{1,k} \right) w_{2,i,k} + b_{2,k} \right) w_{3,i,k} + b_{3,k}}} \right] \right)
 \end{align*}
-$
+$$
 
 #### Where:
 - $L$ is the loss function
@@ -199,13 +199,13 @@ A `layer of neuron(s)` is a collection of neurons that take the same number of i
 
 ---
 
-$
+$$
 \begin{align*}
 \text{Predictions} & = \text{Activation Function} \left(\text{weights} \cdot \text{inputs} + \text{Bias} \right) \\
 \text{Weighted Sum of Inputs w/ Bias} & = \sigma \left(\sum_{i=1}^{n} w_i \cdot x_i + b \right) \\
 \text{Weighted Sum of Inputs w/ Bias} & = \sigma \left(w_1 \cdot x_1 + w_2 \cdot x_2 + . . . + w_n \cdot x_n + b \right) 
 \end{align*}
-$
+$$
 
 ---
 
@@ -234,12 +234,12 @@ neuron in the layer.
 #### Calculate the weighted sum of inputs and add the bias:
 
 
-$
+$$
 \begin{align*}
 \text{Weighted Sum w/ Bias} &= \sum_{i=1}^{n} w_i \cdot x_i + b \\
 \text{Weighted Sum w/ Bias} &= w_1 \cdot x_1 + w_2 \cdot x_2 + . . . + w_n \cdot x_n + b
 \end{align*}
-$
+$$
 
 ---
 
@@ -247,12 +247,12 @@ $
 
 #### Calculate the weighted sum of inputs and add the bias:
 
-$
+$$
 \begin{align*}
 z &= w \cdot x + b \\
 a &= \sigma(z)
 \end{align*}
-$
+$$
 
 Where:
 - $z$ is the output of the linear function
