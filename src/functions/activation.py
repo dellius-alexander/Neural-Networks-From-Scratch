@@ -87,13 +87,14 @@ class Sigmoid(ActivationFunction):
     """
     Implements the Sigmoid activation function.
 
-    ```markdown
+    The Sigmoid function is defined as:
+
     $$
     \begin{align*}
     \sigma(x) = \frac{1}{1 + e^{-x}}
     \end{align*}
     $$
-    ```
+
 
     Methods:
         - __call__(x: np.ndarray) -> np.ndarray: Computes the Sigmoid function: 1 / (1 + exp(-x)).

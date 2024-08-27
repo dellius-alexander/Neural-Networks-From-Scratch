@@ -2,6 +2,7 @@ from src.functions.activation import ActivationFunction
 import numpy as np
 
 
+
 def train_model(
         features: np.ndarray,
         labels: np.ndarray,

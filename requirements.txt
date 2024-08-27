@@ -1,8 +1,8 @@
 jupyter
 matplotlib
-numpy~=2.0.1
+numpy>=2.0.0
 pandas
 scikit-learn
 plotly
 joblib
-tensorflow
+tensorflow>=2.0.0
