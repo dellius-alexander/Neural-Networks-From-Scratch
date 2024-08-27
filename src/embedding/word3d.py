@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 """
 I want to create a 3D visualization of the word embeddings that we have learned.
 I will use the t-SNE algorithm to reduce the dimensionality of the word embeddings to 3D.

@@ -1,8 +1,10 @@
 jupyter
 matplotlib
-numpy>=2.0.0
+numpy==1.26.4
 pandas
 scikit-learn
 plotly
 joblib
-tensorflow>=2.0.0
+tensorflow>=2.16.2
+python-dotenv==1.0.1
+colorlog==6.4.1
