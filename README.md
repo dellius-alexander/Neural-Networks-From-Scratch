@@ -273,7 +273,6 @@ Where:
 
 #### Example of a layer of neurons with 4 inputs, 1 bias and 1 neurons:
 
-
 ```mermaid
 graph LR
     subgraph Hidden Layer
