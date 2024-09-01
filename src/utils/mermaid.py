@@ -55,7 +55,14 @@ def mm_from_file(path: Bytes) -> Bytes:
     return mm_ink(graphbytes).encode("ascii")
 
 
-def mm_save_as_png(graph: str, output_path: str) -> str:
+def mm_save_as_png(graph: MermaidGraph, output_path: str,  mode: str = "w",) -> str:
+    """
+    Save a Mermaid graph as a PNG file
+    :param graph: (MermaidGraph): The Mermaid graph
+    :param output_path: (str): The path to save the PNG file
+    :param mode: (str): The mode to open the file; default is "w" for write/overwrite and "a" for append/create new
+    :return: (str): The path to the saved PNG file
+    """
     import requests, os
     # Generate the Mermaid graph and get the DisplayHandle
     graphbytes = graph.encode("ascii")
@@ -74,8 +81,14 @@ def mm_save_as_png(graph: str, output_path: str) -> str:
     if not os.path.exists(output_path):
         raise FileExistsError(f"Path does not exist: {output_path}")
 
-    # check if file exists and create a new file if it does
-    output_file_path = create_file_if_exists(output_file_path)
+    # check for mode and create a new file if it does not exist
+    if mode == "a":
+        # check if file exists and create a new file if it does
+        output_file_path = create_file_if_exists(output_file_path)
+    elif mode == "w":
+        pass
+    else:
+        raise ValueError(f"Invalid mode: {mode}")
 
     # Save the image as a PNG file
     with open(output_file_path, 'wb') as f:
@@ -85,6 +98,12 @@ def mm_save_as_png(graph: str, output_path: str) -> str:
 
 
 def create_file_if_exists(path: str, **kwargs) -> str:
+    """
+    Create a new file if the file already exists
+    :param path: (str): The path to the file
+    :param kwargs: (dict): Additional keyword arguments
+    :return: (str): The path to the new file
+    """
     import os
     index = kwargs.get("index", 1)
 
@@ -125,24 +144,4 @@ def mm_decode(graphbytes: Bytes) -> MermaidGraph:
     base64_bytes = base64.b64decode(graphbytes)
     return base64_bytes.decode("ascii")
 
-
-if __name__ == "__main__":
-    # Example usage
-    # mm("""
-    # graph TD
-    #     A[Christmas] -->|Get money| B(Go shopping)
-    #     B --> C{Let me think}
-    #     C -->|One| D[Laptop]
-    #     C -->|Two| E[iPhone]
-    #     C -->|Three| F[fa:fa-car Car]
-    # """)
-
-    mm_save_as_png("""
-    graph TD
-        A[Christmas] -->|Get money| B(Go shopping)
-        B --> C{Let me think}
-        C -->|One| D[Laptop]
-        C -->|Two| E[iPhone]
-        C -->|Three| F[fa:fa-car Car]
-    """, "../../assets/images/mermaid.png")
 
