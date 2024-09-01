@@ -81,7 +81,6 @@ def mm_save_as_png(graph: str, output_path: str) -> str:
     with open(output_file_path, 'wb') as f:
         f.write(response.content)
         f.close()
-    print(f"Image saved to: \n{output_file_path}")
     return output_file_path
 
 
@@ -94,7 +93,6 @@ def create_file_if_exists(path: str, **kwargs) -> str:
         if os.path.exists(path):
             raise FileExistsError(f"File already exists: {path}")
     except FileExistsError as e:
-        print(e)
         if path.__contains__("_"):
             __prefix = "".join(path.split("_")[:-1])
             __suffix = path.split(".")[0].split("_")[-1]
