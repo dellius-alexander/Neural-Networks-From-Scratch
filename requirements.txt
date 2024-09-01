@@ -8,3 +8,6 @@ joblib
 tensorflow>=2.16.2
 python-dotenv==1.0.1
 colorlog==6.4.1
+#pyspark>=2.4.8
+pyarrow==17.0.0
+argon2-cffi==23.1.0

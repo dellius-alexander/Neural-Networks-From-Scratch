@@ -4,25 +4,44 @@
 from typing import List, Any
 import numpy as np
 from numpy import ndarray, dtype
+from typing import Union, Tuple
 
 
-def cross_entropy_loss(true_labels: List[int], predicted_probs: List[float]) -> tuple[Any, ndarray[Any, dtype[Any]]]:
+def cross_entropy_loss(true_labels: Union[List[int], np.ndarray], predicted_probs: Union[List[float], np.ndarray]) -> Tuple[float, np.ndarray]:
     """Calculate the cross-entropy loss between true labels and predicted probabilities.
 
-    :param true_labels: (List[int]): A list of true labels (0 or 1).
-    :param predicted_probs: (List[float]): A list of predicted probabilities (between 0 and 1).
-    :return: (tuple[Any, ndarray[Any, dtype[Any]]]): The cross-entropy loss between the true labels and predicted probabilities.
+    :param true_labels: (Union[List[int], np.ndarray]): A list or numpy array of true labels (0 or 1).
+    :param predicted_probs: (Union[List[float], np.ndarray]): A list or numpy array of predicted probabilities (between 0 and 1).
+    :return: (Tuple[float, np.ndarray]): The average cross-entropy loss and the array of individual losses.
     """
-    # Calculate the cross-entropy loss for each sample
-    __losses = []
-    for p, q in zip(true_labels, predicted_probs):
-        __loss = - (p * np.log(q) + (1 - p) * np.log(1 - q))
-        __losses.append(__loss)
-        # print(f"True Label: {p}, Predicted Probability: {q}, Cross-Entropy Loss: {__loss:.4f}")
-    # Calculate the average cross-entropy loss
-    __avg_loss = np.mean(__losses)
-    return __avg_loss, np.array(__losses)
+    # Convert lists to numpy arrays if necessary
+    if isinstance(true_labels, list):
+        true_labels = np.array(true_labels)
+    if isinstance(predicted_probs, list):
+        predicted_probs = np.array(predicted_probs)
 
+    # Attempt to broadcast arrays to compatible shapes
+    try:
+        # check is there is a shape mismatch
+        if true_labels.shape != predicted_probs.shape:
+            true_labels, predicted_probs = np.broadcast_arrays(true_labels, predicted_probs)
+    except ValueError:
+        raise ValueError(f"Shape mismatch: true_labels shape {true_labels.shape} and predicted_probs shape {predicted_probs.shape} cannot be broadcasted to the same shape.")
+
+    # Replace nan values in predicted_probs with 0 or 1
+    predicted_probs = np.nan_to_num(predicted_probs, nan=0, posinf=1.0, neginf=0.0, copy=True)
+
+
+    # Calculate the cross-entropy loss for each sample
+    losses = - (
+            true_labels * np.log(predicted_probs)
+            + (1 - true_labels)
+            * np.log(1 - predicted_probs)
+        )
+
+    # Calculate the average cross-entropy loss
+    avg_loss = np.mean(losses)
+    return avg_loss, losses
 
 def sort_cross_entropy_loss(__predicted_probs: np.ndarray, __cross_entropy_losses: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """
