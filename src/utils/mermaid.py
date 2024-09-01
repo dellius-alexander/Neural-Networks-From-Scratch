@@ -70,7 +70,8 @@ def mm_save_as_png(graph: MermaidGraph, output_path: str,  mode: str = "w",) -> 
 
     # Fetch the image from the URL
     response = requests.get(url)
-    response.raise_for_status()  # Ensure we notice bad responses
+    assert response.status_code == 200, f"Failed to fetch image: {response.status_code}" # Ensure we get a good response
+    # response.raise_for_status()  # Ensure we notice bad responses
 
     # Ensure the output path is a PNG file
     image_filename = output_path.split("/")[-1].split(".")[0]
