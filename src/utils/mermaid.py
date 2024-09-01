@@ -1,3 +1,16 @@
+"""Utilities for working with Mermaid graphs in Jupyter notebooks.
+
+Credit: https://gist.github.com/MLKrisJohnson/2d2df47879ee6afd3be9d6788241fe99
+
+This module provides functions for working with Mermaid graphs in Jupyter notebooks. The functions allow you to:
+
+- Display a Mermaid graph in a Jupyter notebook cell.
+- Generate a URL that will display the graph in a web browser.
+- Save the graph as a PNG file.
+- Load a graph from a file and display it in a Jupyter notebook cell.
+
+"""
+
 import base64
 from typing import Annotated
 
@@ -14,7 +27,12 @@ Path = Annotated[str, bytes, "A path to a file"]
 
 
 def mm_ink(graphbytes: Bytes) -> str:
-    """Given a bytes object holding a Mermaid-format graph, return a URL that will generate the image."""
+    """Given a bytes object holding a Mermaid-format graph, return a
+    URL that will generate the image.
+
+    :param graphbytes: (bytes): The Mermaid-format graph
+    :return: (str): The URL for displaying the graph
+    """
     base64_bytes = base64.b64encode(graphbytes)
     base64_string = base64_bytes.decode("ascii")
     url_link = "https://mermaid.ink/img/" + base64_string
@@ -22,37 +40,44 @@ def mm_ink(graphbytes: Bytes) -> str:
 
 
 def mm_display(graphbytes: Bytes) -> DisplayHandle:
-    """Given a bytes object holding a Mermaid-format graph, display it."""
+    """Given a bytes object holding a Mermaid-format graph, display it.
+
+    :param graphbytes: (bytes): The Mermaid-format graph
+    :return: (DisplayHandle): The display handle for the graph
+    """
     return display(Image(url=mm_ink(graphbytes)))
 
 
 def mm(graph: MermaidGraph) -> DisplayHandle:
-    """Given a string containing a Mermaid-format graph, display it."""
+    """Given a string containing a Mermaid-format graph, display it.
+
+    :param graph: (str): The Mermaid-format graph
+    :return: (DisplayHandle): The display handle for the graph
+    """
     graphbytes: bytes = graph.encode("ascii")
     return mm_display(graphbytes)
 
 
 def mm_link(graph: Bytes) -> MermaidGraph:
-    """Given a string containing a Mermaid-format graph, return URL for display."""
+    """Given a string containing a Mermaid-format graph, return URL for display.
+
+    :param graph: (str): The Mermaid-format graph
+    :return: (str): The URL for displaying the graph
+    """
     graphbytes = graph.encode("ascii")
     return mm_ink(graphbytes)
 
 
-def mm_path(path: Bytes) -> Bytes:
-    """Given a path to a file containing a Mermaid-format graph, display it"""
-    with open(path, 'rb') as f:
-        graphbytes = f.read()
-    mm_display(graphbytes)
+def mm_from_file(path: str) -> DisplayHandle:
+    """Given a path to a file containing a Mermaid-format graph, display
+    the graph in a Jupyter notebook cell or IPython display.
 
-
-def mm_from_file(path: Bytes) -> Bytes:
-    """Given a path to a file containing a Mermaid-format graph, return URL for display.
-
-    :return: (Bytes): A bytes object holding the URL for the image.
+    :param path: (str): The path to the file containing the Mermaid graph
+    :return: (DisplayHandle): The display handle for the graph
     """
     with open(path, 'rb') as f:
-        graphbytes = bytes(f.read())
-    return mm_ink(graphbytes).encode("ascii")
+        graphbytes = f.read()
+    return display(Image(graphbytes))
 
 
 def mm_save_as_png(graph: MermaidGraph, output_path: str,  mode: str = "w",) -> str:
@@ -146,3 +171,113 @@ def mm_decode(graphbytes: Bytes) -> MermaidGraph:
     return base64_bytes.decode("ascii")
 
 
+# Example usage
+if __name__ == "__main__":
+    mermaid_diagram = '''
+    %%{
+      init: {
+        'theme': 'forest',
+        'themeVariables': {
+          'primaryColor': '#BB2528',
+          'primaryTextColor': '#fff',
+          'primaryBorderColor': '#7C0000',
+          'lineColor': '#F8B229',
+          'secondaryColor': '#006100',
+          'secondaryBorderColor': '#003700',
+          'secondaryTextColor': '#fff000',
+          'tertiaryColor': '#fff999',
+          'tertiaryBorderColor': '#000999',
+          'orientation': 'landscape'
+        }
+      }
+    }%%
+
+    graph TD
+        subgraph Input Layer
+            direction LR
+            I1((1))
+            I2((2))
+            I3((3))
+            I4((4))
+        end
+
+        subgraph Hidden Layer 1
+            direction LR
+            H1_1((H1_1))
+            H1_2((H1_2))
+            H1_3((H1_3))
+            B1_1["B1_1"]
+            B1_2["B1_2"]
+            B1_3["B1_3"]
+        end
+
+        subgraph Hidden Layer 2
+            direction LR
+            H2_1((H2_1))
+            H2_2((H2_2))
+            H2_3((H2_3))
+            H2_4((H2_4))
+            B2_1["B2_1"]
+            B2_2["B2_2"]
+            B2_3["B2_3"]
+            B2_4["B2_4"]
+        end
+
+        subgraph Output Layer
+            direction LR
+            O((O))
+            B3["B3"]
+        end
+
+        I1 -->|W1_1| H1_1
+        I1 -->|W1_2| H1_2
+        I1 -->|W1_3| H1_3
+
+        I2 -->|W2_1| H1_1
+        I2 -->|W2_2| H1_2
+        I2 -->|W2_3| H1_3
+
+        I3 -->|W3_1| H1_1
+        I3 -->|W3_2| H1_2
+        I3 -->|W3_3| H1_3
+
+        I4 -->|W4_1| H1_1
+        I4 -->|W4_2| H1_2
+        I4 -->|W4_3| H1_3
+
+        H1_1 -->|W5_1| H2_1
+        H1_1 -->|W5_2| H2_2
+        H1_1 -->|W5_3| H2_3
+        H1_1 -->|W5_4| H2_4
+
+        H1_2 -->|W6_1| H2_1
+        H1_2 -->|W6_2| H2_2
+        H1_2 -->|W6_3| H2_3
+        H1_2 -->|W6_4| H2_4
+
+        H1_3 -->|W7_1| H2_1
+        H1_3 -->|W7_2| H2_2
+        H1_3 -->|W7_3| H2_3
+        H1_3 -->|W7_4| H2_4
+
+        H2_1 -->|W8_1| O
+        H2_2 -->|W8_2| O
+        H2_3 -->|W8_3| O
+        H2_4 -->|W8_4| O
+
+        B1_1 --> H1_1
+        B1_2 --> H1_2
+        B1_3 --> H1_3
+
+        B2_1 --> H2_1
+        B2_2 --> H2_2
+        B2_3 --> H2_3
+        B2_4 --> H2_4
+
+        B3 --> O
+       '''
+
+    # Save the mermaid diagram
+    mm_save_as_png(mermaid_diagram, '../../assets/images/hidden-layer-forward-pass.png')
+    # Generate the mermaid diagram
+    mm_from_file('../../assets/images/hidden-layer-forward-pass.png')
