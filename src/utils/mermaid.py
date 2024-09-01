@@ -68,7 +68,7 @@ def mm_link(graph: Bytes) -> MermaidGraph:
     return mm_ink(graphbytes)
 
 
-def mm_from_file(path: str) -> DisplayHandle:
+def display_image_from_file(path: str) -> DisplayHandle:
     """Given a path to a file containing a Mermaid-format graph, display
     the graph in a Jupyter notebook cell or IPython display.
 
@@ -280,4 +280,4 @@ if __name__ == "__main__":
     # Save the mermaid diagram
     mm_save_as_png(mermaid_diagram, '../../assets/images/hidden-layer-forward-pass.png')
     # Generate the mermaid diagram
-    mm_from_file('../../assets/images/hidden-layer-forward-pass.png')
+    display_image_from_file('../../assets/images/hidden-layer-forward-pass.png')
