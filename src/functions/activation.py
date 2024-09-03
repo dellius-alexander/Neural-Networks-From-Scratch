@@ -90,17 +90,19 @@ class Sigmoid(ActivationFunction):
     """
     Implements the Sigmoid activation function.
 
-    The Sigmoid function is defined as:
+    Mathematically, the Sigmoid function is defined as:
 
-    $$
-    \begin{align*}
-    \sigma(x) = \frac{1}{1 + e^{-x}}
-    \end{align*}
-    $$
+    :math: σ(x) = 1/(1 + e^{-x})
 
+    Calculating the Sigmoid function for a given input array `inputs` can be done as follows:
+
+        >>> # Get unnormalized probabilities
+        >>> exp_values = np.exp(inputs - np.max(inputs, axis=1, keepdims=True)
+        >>> # Normalize them for each sample
+        >>> probabilities = exp_values / np.sum(exp_values, axis=1, keepdims=True)
 
     Methods:
-        - __call__(x: np.ndarray) -> np.ndarray: Computes the Sigmoid function: 1 / (1 + exp(-x)).
+        - __call__(x: np.ndarray) -> np.ndarray: Computes the Sigmoid activation function: :math:1/(1 + e^{-x}).
         - derivative(x: np.ndarray) -> np.ndarray: Computes the derivative of the Sigmoid function.
     """
 
@@ -108,12 +110,15 @@ class Sigmoid(ActivationFunction):
         """
         Computes the Sigmoid activation function.
 
-        $\sigma(x) = \frac{1}{1 + e^{-x}}$
+        .. math::
+            σ(x) = 1/(1 + e^{-x})
 
         :param x: (np.ndarray) Input array of any shape.
         :return: (np.ndarray) The Sigmoid function applied to each element of the input.
                  The output values are in the range (0, 1).
         """
+        if isinstance(x, list):
+            x = np.array(x)
         return 1 / (1 + np.exp(-x))
 
     def derivative(self, x: np.ndarray) -> np.ndarray:

@@ -64,17 +64,21 @@ from dotenv import load_dotenv, find_dotenv, dotenv_values
 # Define and Create project environment
 # --------------------------------------------------------------
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__).split("src")[0])
-print(f"ROOT_DIR: {ROOT_DIR}")
 LOG_DIR = os.path.join(ROOT_DIR, "logs")
-print(f"LOG_DIR: {LOG_DIR}")
 LOG_FILE = f'{LOG_DIR}/dev_{time.strftime("%Y%m%d%H%M%S")}.log'
-print(f"LOG_FILE: {LOG_FILE}")
 DATASETS_DIR = os.path.join(ROOT_DIR, "datasets")
-print(f"DATASETS_DIR: {DATASETS_DIR}")
 MODELS_DIR = os.path.join(ROOT_DIR, "models")
-print(f"MODELS_DIR: {MODELS_DIR}")
-LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG")
-print(f"LOG_LEVEL: {LOG_LEVEL}")
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+# --------------------------------------------------------------
+# Print the environment variables if log level is DEBUG
+if LOG_LEVEL == "DEBUG":
+    print(f"Environment Variables: \n{json.dumps(dotenv_values(), indent=2, sort_keys=True)}")
+    print(f"ROOT_DIR: {ROOT_DIR}")
+    print(f"LOG_DIR: {LOG_DIR}")
+    print(f"LOG_FILE: {LOG_FILE}")
+    print(f"DATASETS_DIR: {DATASETS_DIR}")
+    print(f"MODELS_DIR: {MODELS_DIR}")
+    print(f"LOG_LEVEL: {LOG_LEVEL}")
 # --------------------------------------------------------------
 # Create directories if they do not exist
 for directory in [LOG_DIR, DATASETS_DIR, MODELS_DIR]:
