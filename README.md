@@ -448,14 +448,14 @@ flowchart LR
     style subGraph1 color:#ffffff,fill:none
     style subGraph0 color:#ffffff,fill:none
     style D1 color:#ffffff,fill:#baace6,stroke:#003700,stroke-width:1px
-    style C1 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
-    style C2 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
-    style C3 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
-    style C4 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
-    style B1 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
-    style B2 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
-    style B3 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
-    style B4 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
+    style C1 color:#ffffff,fill:#ecfc03,stroke:#003700,stroke-width:1px
+    style C2 color:#ffffff,fill:#ecfc03,stroke:#003700,stroke-width:1px
+    style C3 color:#ffffff,fill:#ecfc03,stroke:#003700,stroke-width:1px
+    style C4 color:#ffffff,fill:#ecfc03,stroke:#003700,stroke-width:1px
+    style B1 color:#ffffff,fill:#03fc2c,stroke:#003700,stroke-width:1px
+    style B2 color:#ffffff,fill:#03fc2c,stroke:#003700,stroke-width:1px
+    style B3 color:#ffffff,fill:#03fc2c,stroke:#003700,stroke-width:1px
+    style B4 color:#ffffff,fill:#03fc2c,stroke:#003700,stroke-width:1px
     style A1 color:#ffffff,fill:#42a7f5,stroke:#003700,stroke-width:1px
     style A2 color:#ffffff,fill:#42a7f5,stroke:#003700,stroke-width:1px
     style A3 color:#ffffff,fill:#42a7f5,stroke:#003700,stroke-width:1px
