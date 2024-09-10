@@ -279,14 +279,14 @@ title: Neural Network with 2 Hidden Layers
     'theme': 'forest',
     'themeVariables': {
       'primaryColor': '#BB2528',
-      'primaryTextColor': '#fff',
+      'primaryTextColor': '#ffffff',       // Change to white for better contrast
       'primaryBorderColor': '#28bb25',
       'lineColor': '#28bb25',
       'secondaryColor': '#006100',
       'secondaryBorderColor': '#003700',
-      'secondaryTextColor': '#fff000',
-      'tertiaryColor': '#fff999',
-      'tertiaryBorderColor': '#fff000',
+      'secondaryTextColor': '#ffffff',       // Change to white for better contrast
+      'tertiaryColor': '#000000',          // Use dark background for better contrast
+      'tertiaryBorderColor': '#ffffff',
       'orientation': 'landscape'
     }
   }
