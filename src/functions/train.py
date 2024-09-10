@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from src.functions.activation import ActivationFunction
+from src.functions.activation import Activation
 import numpy as np
 
 
@@ -9,7 +9,7 @@ import numpy as np
 def train_model(
         features: np.ndarray,
         labels: np.ndarray,
-        activation: ActivationFunction,
+        activation: Activation,
         epochs: int,
         learning_rate: float):
     # Set seed for reproducibility

@@ -61,6 +61,25 @@ import os
 import json
 from dotenv import load_dotenv, find_dotenv, dotenv_values
 # --------------------------------------------------------------
+# Load environment variables from .env file
+try:
+    for filename in [".env"]:
+        result = load_dotenv(
+            find_dotenv(
+                filename=filename,
+                raise_error_if_not_found=True,
+                usecwd=True,
+            )
+        )
+        if result:
+            print(f"Loaded environment variables.")
+            continue
+        else:
+            print(f"Environment variables not loaded.")
+except Exception as e:
+    print(f"Error loading environment variables: {e}")
+    exit(1)
+# --------------------------------------------------------------
 # Define and Create project environment
 # --------------------------------------------------------------
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__).split("src")[0])
@@ -86,7 +105,7 @@ for directory in [LOG_DIR, DATASETS_DIR, MODELS_DIR]:
         os.makedirs(directory, exist_ok=True, mode=0o777)
         print(f"Created directory: {directory}")
     else:
-        print(f"Directory already exists: {directory}")
+        print(f"Directory already exists: {directory.split('/')[-1]}")
 # --------------------------------------------------------------
 # Define log colors
 log_colors_config = {
@@ -142,25 +161,6 @@ log_config = {
         }
     },
 }
-# --------------------------------------------------------------
-# Load environment variables from .env file
-try:
-    for filename in [".env"]:
-        result = load_dotenv(
-            find_dotenv(
-                filename=filename,
-                raise_error_if_not_found=True,
-                usecwd=True,
-            )
-        )
-        if result:
-            print(f"Loaded environment variables from: {filename}")
-            continue
-        else:
-            print(f"Environment variables not loaded from: {filename}")
-except Exception as e:
-    print(f"Error loading environment variables: {e}")
-    exit(1)
 # --------------------------------------------------------------
 # Set environment variables
 # --------------------------------------------------------------

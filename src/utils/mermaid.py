@@ -13,7 +13,7 @@ This module provides functions for working with Mermaid graphs in Jupyter notebo
 
 import base64
 from typing import Annotated
-
+import requests, os
 from IPython.core.display_functions import DisplayHandle
 from IPython.display import Image, display
 
@@ -64,7 +64,10 @@ def mm_link(graph: Bytes) -> MermaidGraph:
     :param graph: (str): The Mermaid-format graph
     :return: (str): The URL for displaying the graph
     """
-    graphbytes = graph.encode("ascii")
+    if isinstance(graph, str):
+        graphbytes = graph.encode("ascii")
+    else:
+        graphbytes = graph
     return mm_ink(graphbytes)
 
 
@@ -80,32 +83,44 @@ def display_image_from_file(path: str) -> DisplayHandle:
     return display(Image(graphbytes))
 
 
-def mm_save_as_png(graph: MermaidGraph, output_path: str,  mode: str = "w",) -> str:
+def mm_save_as_png(graph: MermaidGraph, output_file_path: str, mode: str = "w", ) -> Path:
     """
     Save a Mermaid graph as a PNG file
     :param graph: (MermaidGraph): The Mermaid graph
-    :param output_path: (str): The path to save the PNG file
+    :param output_file_path: (str): The path to save the PNG file
     :param mode: (str): The mode to open the file; default is "w" for write/overwrite and "a" for append/create new
-    :return: (str): The path to the saved PNG file
+    :return: (Path): The path to the saved PNG file
     """
-    import requests, os
     # Generate the Mermaid graph and get the DisplayHandle
-    graphbytes = graph.encode("ascii")
-    url = mm_ink(graphbytes)
+    graph_bytes = graph.encode("ascii")
+    url = mm_ink(graph_bytes)
 
     # Fetch the image from the URL
-    response = requests.get(url)
+    response = requests.get(
+        url=url,
+        stream=True,
+        headers={
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+            "Accept": "image/webp,image/apng,image/*,*/*;q=0.8",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Connection": "keep-alive",
+            "Host": "mermaid.ink"
+        }
+    )
     assert response.status_code == 200, f"Failed to fetch image: {response.status_code}" # Ensure we get a good response
     # response.raise_for_status()  # Ensure we notice bad responses
+    log.debug(f"Response status code: {response.status_code}")
 
     # Ensure the output path is a PNG file
-    image_filename = output_path.split("/")[-1].split(".")[0]
-    output_path = "/".join(output_path.split("/")[0:-1])
-    output_file_path = output_path + "/" + image_filename + ".png"
+    image_filename = output_file_path.split("/")[-1].split(".")[0]
+    output_dir = "/".join(output_file_path.split("/")[0:-1])
+    output_file_path = os.path.abspath(output_dir + "/" + image_filename + ".png")
+    log.debug(f"Output file path: \n{output_file_path}")
 
     # check if path exists and throw error if it does
-    if not os.path.exists(output_path):
-        raise FileExistsError(f"Path does not exist: {output_path}")
+    if not os.path.exists(output_dir):
+        raise FileExistsError(f"Path does not exist: {output_dir}")
 
     # check for mode and create a new file if it does not exist
     if mode == "a":
@@ -173,111 +188,202 @@ def mm_decode(graphbytes: Bytes) -> MermaidGraph:
 
 # Example usage
 if __name__ == "__main__":
-    mermaid_diagram = '''
-    %%{
-      init: {
-        'theme': 'forest',
-        'themeVariables': {
-          'primaryColor': '#BB2528',
-          'primaryTextColor': '#fff',
-          'primaryBorderColor': '#7C0000',
-          'lineColor': '#F8B229',
-          'secondaryColor': '#006100',
-          'secondaryBorderColor': '#003700',
-          'secondaryTextColor': '#fff000',
-          'tertiaryColor': '#fff999',
-          'tertiaryBorderColor': '#000999',
-          'orientation': 'landscape'
-        }
-      }
-    }%%
+    mermaid_diagram = """---
+title: Neural Network with 2 Hidden Layers
+---
 
-    graph TD
-        subgraph Input Layer
-            direction LR
-            I1((1))
-            I2((2))
-            I3((3))
-            I4((4))
-        end
+%%{
+  init: {
+    'theme': 'forest',
+    'themeVariables': {
+      'primaryColor': '#BB2528',
+      'primaryTextColor': '#fff',
+      'primaryBorderColor': '#28bb25',
+      'lineColor': '#28bb25',
+      'secondaryColor': '#006100',
+      'secondaryBorderColor': '#003700',
+      'secondaryTextColor': '#fff000',
+      'tertiaryColor': '#fff999',
+      'tertiaryBorderColor': '#fff000',
+      'orientation': 'landscape'
+    }
+  }
+}%%
 
-        subgraph Hidden Layer 1
-            direction LR
-            H1_1((H1_1))
-            H1_2((H1_2))
-            H1_3((H1_3))
-            B1_1["B1_1"]
-            B1_2["B1_2"]
-            B1_3["B1_3"]
-        end
+flowchart LR
+    subgraph subGraph0["Output Layer D1"]
+      direction TB
+        D1("$$\\text{activation}_{D_1} (\\sum_{i=1}^{n} w_i \\cdot x_i + b )$$")
+    end
+    
+    subgraph subGraph1["Hidden Layer 2"]
+      direction TB
+        C1("$$\\text{activation}_{C_1}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+        C2("$$\\text{activation}_{C_2}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+        C3("$$\\text{activation}_{C_3}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+        C4("$$\\text{activation}_{C_4}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+    end
+    
+    subgraph subGraph2["Hidden Layer 1"]
+      direction TB
+        B1("$$\\text{activation}_{B_1}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+        B2("$$\\text{activation}_{B_2}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+        B3("$$\\text{activation}_{B_3}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+        B4("$$\\text{activation}_{B_4}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+    end
+    
+    subgraph subGraph3["Input Layer"]
+      direction TB
+        A1["$$\\text{input}_{1}$$"]
+        A2["$$\\text{input}_{2}$$"]
+        A3["$$\\text{input}_{3}$$"]
+        A4["$$\\text{input}_{4}$$"]
+    end
+    
+    %% Weights: Layer 1
+    subgraph WeightsLayer1["Layer 1 Weights"]
+      direction TB
+        W11["$$\\text{w}_{1_1}$$"]
+        W12["$$\\text{w}_{1_2}$$"]
+        W13["$$\\text{w}_{1_3}$$"]
+        W14["$$\\text{w}_{1_4}$$"]
+        W21["$$\\text{w}_{2_1}$$"]
+        W22["$$\\text{w}_{2_2}$$"]
+        W23["$$\\text{w}_{2_3}$$"]
+        W24["$$\\text{w}_{2_4}$$"]
+        W31["$$\\text{w}_{3_1}$$"]
+        W32["$$\\text{w}_{3_2}$$"]
+        W33["$$\\text{w}_{3_3}$$"]
+        W34["$$\\text{w}_{3_4}$$"]
+        W41["$$\\text{w}_{4_1}$$"]
+        W42["$$\\text{w}_{4_2}$$"]
+        W43["$$\\text{w}_{4_3}$$"]
+        W44["$$\\text{w}_{4_4}$$"]
+        Bias11["$$\\text{b}_{1_1}$$"]
+        Bias12["$$\\text{b}_{1_2}$$"]
+        Bias13["$$\\text{b}_{1_3}$$"]
+        Bias14["$$\\text{b}_{1_4}$$"]
+    end
 
-        subgraph Hidden Layer 2
-            direction LR
-            H2_1((H2_1))
-            H2_2((H2_2))
-            H2_3((H2_3))
-            H2_4((H2_4))
-            B2_1["B2_1"]
-            B2_2["B2_2"]
-            B2_3["B2_3"]
-            B2_4["B2_4"]
-        end
-
-        subgraph Output Layer
-            direction LR
-            O((O))
-            B3["B3"]
-        end
-
-        I1 -->|W1_1| H1_1
-        I1 -->|W1_2| H1_2
-        I1 -->|W1_3| H1_3
-
-        I2 -->|W2_1| H1_1
-        I2 -->|W2_2| H1_2
-        I2 -->|W2_3| H1_3
-
-        I3 -->|W3_1| H1_1
-        I3 -->|W3_2| H1_2
-        I3 -->|W3_3| H1_3
-
-        I4 -->|W4_1| H1_1
-        I4 -->|W4_2| H1_2
-        I4 -->|W4_3| H1_3
-
-        H1_1 -->|W5_1| H2_1
-        H1_1 -->|W5_2| H2_2
-        H1_1 -->|W5_3| H2_3
-        H1_1 -->|W5_4| H2_4
-
-        H1_2 -->|W6_1| H2_1
-        H1_2 -->|W6_2| H2_2
-        H1_2 -->|W6_3| H2_3
-        H1_2 -->|W6_4| H2_4
-
-        H1_3 -->|W7_1| H2_1
-        H1_3 -->|W7_2| H2_2
-        H1_3 -->|W7_3| H2_3
-        H1_3 -->|W7_4| H2_4
-
-        H2_1 -->|W8_1| O
-        H2_2 -->|W8_2| O
-        H2_3 -->|W8_3| O
-        H2_4 -->|W8_4| O
-
-        B1_1 --> H1_1
-        B1_2 --> H1_2
-        B1_3 --> H1_3
-
-        B2_1 --> H2_1
-        B2_2 --> H2_2
-        B2_3 --> H2_3
-        B2_4 --> H2_4
-
-        B3 --> O
-       '''
+    subgraph WeightsLayer2["Layer 2 Weights"]
+      direction TB
+        W211["$$\\text{w}_{1_1}$$"]
+        W212["$$\\text{w}_{1_2}$$"]
+        W213["$$\\text{w}_{1_3}$$"]
+        W214["$$\\text{w}_{1_4}$$"]
+        W221["$$\\text{w}_{2_1}$$"]
+        W222["$$\\text{w}_{2_2}$$"]
+        W223["$$\\text{w}_{2_3}$$"]
+        W224["$$\\text{w}_{2_4}$$"]
+        W231["$$\\text{w}_{3_1}$$"]
+        W232["$$\\text{w}_{3_2}$$"]
+        W233["$$\\text{w}_{3_3}$$"]
+        W234["$$\\text{w}_{3_4}$$"]
+        W241["$$\\text{w}_{4_1}$$"]
+        W242["$$\\text{w}_{4_2}$$"]
+        W243["$$\\text{w}_{4_3}$$"]
+        W244["$$\\text{w}_{4_4}$$"]
+        Bias21["$$\\text{b}_{2_1}$$"]
+        Bias22["$$\\text{b}_{2_2}$$"]
+        Bias23["$$\\text{b}_{2_3}$$"]
+        Bias24["$$\\text{b}_{2_4}$$"]
+    end
+    
+    subgraph WeightsLayer3["Output Layer Weights"]
+      direction TB
+        W311["$$\\text{w}_{1_1}$$"]
+        W321["$$\\text{w}_{1_2}$$"]
+        W331["$$\\text{w}_{1_3}$$"]
+        W341["$$\\text{w}_{1_4}$$"]
+        Bias31["$$\\text{b}_{3_1}$$"]
+    end
+    
+    %% Layers
+    A1 --- W11 --> B1
+    A1 --- W12 --> B2
+    A1 --- W13 --> B3
+    A1 --- W14 --> B4
+    A2 --- W21 --> B1
+    A2 --- W22 --> B2
+    A2 --- W23 --> B3
+    A2 --- W24 --> B4
+    A3 --- W31 --> B1
+    A3 --- W32 --> B2
+    A3 --- W33 --> B3
+    A3 --- W34 --> B4
+    A4 --- W41 --> B1
+    A4 --- W42 --> B2
+    A4 --- W43 --> B3
+    A4 --- W44 --> B4
+    
+    %% Layer 2
+    B1 --- W211 --> C1
+    B1 --- W212 --> C2
+    B1 --- W213 --> C3
+    B1 --- W214 --> C4
+    B2 --- W221 --> C1
+    B2 --- W222 --> C2
+    B2 --- W223 --> C3
+    B2 --- W224 --> C4
+    B3 --- W231 --> C1
+    B3 --- W232 --> C2
+    B3 --- W233 --> C3
+    B3 --- W234 --> C4
+    B4 --- W241 --> C1
+    B4 --- W242 --> C2
+    B4 --- W243 --> C3
+    B4 --- W244 --> C4
+    
+    %% Output Layer
+    C1 --- W311 --> D1
+    C2 --- W321 --> D1
+    C3 --- W331 --> D1
+    C4 --- W341 --> D1
+    
+    %% Bias
+    Bias11 --> B1
+    Bias12 --> B2
+    Bias13 --> B3
+    Bias14 --> B4
+    Bias21 --> C1
+    Bias22 --> C2
+    Bias23 --> C3
+    Bias24 --> C4
+    Bias31 --> D1
+    
+    %% Style
+    style Bias11 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias12 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias13 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias14 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias21 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias22 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias23 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias24 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias31 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style subGraph3 color:#000000,fill:none
+    style subGraph2 color:#000000,fill:none
+    style subGraph1 color:#000000,fill:none
+    style subGraph0 color:#000000,fill:none
+    style D1 fill:#baace6,stroke:#003700,stroke-width:1px
+    style C1 fill:#fff000,stroke:#003700,stroke-width:1px
+    style C2 fill:#fff000,stroke:#003700,stroke-width:1px
+    style C3 fill:#fff000,stroke:#003700,stroke-width:1px
+    style C4 fill:#fff000,stroke:#003700,stroke-width:1px
+    style B1 fill:#fff000,stroke:#003700,stroke-width:1px
+    style B2 fill:#fff000,stroke:#003700,stroke-width:1px
+    style B3 fill:#fff000,stroke:#003700,stroke-width:1px
+    style B4 fill:#fff000,stroke:#003700,stroke-width:1px
+    style A1 fill:#42a7f5,stroke:#003700,stroke-width:1px
+    style A2 fill:#42a7f5,stroke:#003700,stroke-width:1px
+    style A3 fill:#42a7f5,stroke:#003700,stroke-width:1px
+    style A4 fill:#42a7f5,stroke:#003700,stroke-width:1px
+    style WeightsLayer1 color:#000000,fill:none,stroke:#003700,stroke-width:1px
+    style WeightsLayer2 color:#000000,fill:none,stroke:#003700,stroke-width:1px
+    style WeightsLayer3 color:#000000,fill:none,stroke:#003700,stroke-width:1px
+"""
 
     # Save the mermaid diagram
-    mm_save_as_png(mermaid_diagram, '../../assets/images/hidden-layer-forward-pass.png')
+    __file_path = mm_save_as_png(mermaid_diagram, '../../assets/images/hidden-layer-forward-pass.png')
     # Generate the mermaid diagram
-    display_image_from_file('../../assets/images/hidden-layer-forward-pass.png')
+    display_image_from_file(__file_path)

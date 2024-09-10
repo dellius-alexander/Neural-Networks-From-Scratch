@@ -5,7 +5,7 @@
 activation.py
 ==============
 
-This module contains implementations of various activation functions commonly used in neural networks and deep learning. Each activation function is implemented as a class that inherits from an abstract base class `ActivationFunction`, which defines the interface for activation functions, including the methods for computing the activation and its derivative.
+This module contains implementations of various activation functions commonly used in neural networks and deep learning. Each activation function is implemented as a class that inherits from an abstract base class `Activation`, which defines the interface for activation functions, including the methods for computing the activation and its derivative.
 
 Activation Functions Implemented:
 ---------------------------------
@@ -29,7 +29,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 
 
-class ActivationFunction(ABC):
+class Activation(ABC):
     """
     Abstract base class for all activation functions.
 
@@ -56,7 +56,7 @@ class ActivationFunction(ABC):
         raise NotImplementedError
 
 
-class Linear(ActivationFunction):
+class Linear(Activation):
     """
     Implements the Linear (identity) activation function.
 
@@ -86,7 +86,7 @@ class Linear(ActivationFunction):
         return np.array([1 for _ in x])
 
 
-class Sigmoid(ActivationFunction):
+class Sigmoid(Activation):
     """
     Implements the Sigmoid activation function.
 
@@ -132,7 +132,7 @@ class Sigmoid(ActivationFunction):
         return self.__call__(x) * (1 - self.__call__(x))
 
 
-class Tanh(ActivationFunction):
+class Tanh(Activation):
     """
     Implements the Tanh (Hyperbolic Tangent) activation function.
 
@@ -162,7 +162,7 @@ class Tanh(ActivationFunction):
         return 1 - np.tanh(x) ** 2
 
 
-class ReLU(ActivationFunction):
+class ReLU(Activation):
     """
     Implements the Rectified Linear Unit (ReLU) activation function.
 
@@ -192,7 +192,7 @@ class ReLU(ActivationFunction):
         return np.where(x <= 0, 0, 1)
 
 
-class LeakyReLU(ActivationFunction):
+class LeakyReLU(Activation):
     """
     Implements the Leaky ReLU activation function.
 
@@ -230,7 +230,7 @@ class LeakyReLU(ActivationFunction):
         return np.where(x > 0, 1, self.alpha)
 
 
-class Softmax(ActivationFunction):
+class Softmax(Activation):
     """
     Implements the Softmax activation function.
 
@@ -247,7 +247,7 @@ class Softmax(ActivationFunction):
         :return: (np.ndarray) The Softmax function applied to the input. Each element is
                  transformed to a probability, and the sum of all elements is 1.
         """
-        exps = np.exp(x - np.max(x))    # To avoid overflow
+        exps = np.exp(x - np.max(x, axis=0, keepdims=True))  # To avoid overflow
         return exps / np.sum(exps, axis=0, keepdims=True)
 
     def derivative(self, x: np.ndarray) -> np.ndarray:
