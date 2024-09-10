@@ -269,8 +269,201 @@ Where:
 
 #### Example Neural Network with Two hidden layers of neurons.
 
-[![Neural Network](./assets/images/hidden-layer-forward-pass.png "Neural Network")](./assets/images/hidden-layer-forward-pass.png)
+```mermaid
+---
+title: Neural Network with 2 Hidden Layers
+---
 
+%%{
+  init: {
+    'theme': 'forest',
+    'themeVariables': {
+      'primaryColor': '#BB2528',
+      'primaryTextColor': '#fff',
+      'primaryBorderColor': '#28bb25',
+      'lineColor': '#28bb25',
+      'secondaryColor': '#006100',
+      'secondaryBorderColor': '#003700',
+      'secondaryTextColor': '#fff000',
+      'tertiaryColor': '#fff999',
+      'tertiaryBorderColor': '#fff000',
+      'orientation': 'landscape'
+    }
+  }
+}%%
+
+flowchart LR
+    subgraph subGraph0["Output Layer D1"]
+      direction TB
+        D1("$$\\text{activation}_{D_1} (\\sum_{i=1}^{n} w_i \\cdot x_i + b )$$")
+    end
+    
+    subgraph subGraph1["Hidden Layer 2"]
+      direction TB
+        C1("$$\\text{activation}_{C_1}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+        C2("$$\\text{activation}_{C_2}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+        C3("$$\\text{activation}_{C_3}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+        C4("$$\\text{activation}_{C_4}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+    end
+    
+    subgraph subGraph2["Hidden Layer 1"]
+      direction TB
+        B1("$$\\text{activation}_{B_1}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+        B2("$$\\text{activation}_{B_2}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+        B3("$$\\text{activation}_{B_3}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+        B4("$$\\text{activation}_{B_4}\\left(\\sum_{i=1}^{n} w_i \\cdot x_i + b \\right)$$")
+    end
+    
+    subgraph subGraph3["Input Layer"]
+      direction TB
+        A1["$$\\text{input}_{1}$$"]
+        A2["$$\\text{input}_{2}$$"]
+        A3["$$\\text{input}_{3}$$"]
+        A4["$$\\text{input}_{4}$$"]
+    end
+    
+    %% Weights: Layer 1
+    subgraph WeightsLayer1["Layer 1 Weights"]
+      direction TB
+        W11["$$\\text{w}_{1_1}$$"]
+        W12["$$\\text{w}_{1_2}$$"]
+        W13["$$\\text{w}_{1_3}$$"]
+        W14["$$\\text{w}_{1_4}$$"]
+        W21["$$\\text{w}_{2_1}$$"]
+        W22["$$\\text{w}_{2_2}$$"]
+        W23["$$\\text{w}_{2_3}$$"]
+        W24["$$\\text{w}_{2_4}$$"]
+        W31["$$\\text{w}_{3_1}$$"]
+        W32["$$\\text{w}_{3_2}$$"]
+        W33["$$\\text{w}_{3_3}$$"]
+        W34["$$\\text{w}_{3_4}$$"]
+        W41["$$\\text{w}_{4_1}$$"]
+        W42["$$\\text{w}_{4_2}$$"]
+        W43["$$\\text{w}_{4_3}$$"]
+        W44["$$\\text{w}_{4_4}$$"]
+        Bias11["$$\\text{b}_{1_1}$$"]
+        Bias12["$$\\text{b}_{1_2}$$"]
+        Bias13["$$\\text{b}_{1_3}$$"]
+        Bias14["$$\\text{b}_{1_4}$$"]
+    end
+
+    subgraph WeightsLayer2["Layer 2 Weights"]
+      direction TB
+        W211["$$\\text{w}_{1_1}$$"]
+        W212["$$\\text{w}_{1_2}$$"]
+        W213["$$\\text{w}_{1_3}$$"]
+        W214["$$\\text{w}_{1_4}$$"]
+        W221["$$\\text{w}_{2_1}$$"]
+        W222["$$\\text{w}_{2_2}$$"]
+        W223["$$\\text{w}_{2_3}$$"]
+        W224["$$\\text{w}_{2_4}$$"]
+        W231["$$\\text{w}_{3_1}$$"]
+        W232["$$\\text{w}_{3_2}$$"]
+        W233["$$\\text{w}_{3_3}$$"]
+        W234["$$\\text{w}_{3_4}$$"]
+        W241["$$\\text{w}_{4_1}$$"]
+        W242["$$\\text{w}_{4_2}$$"]
+        W243["$$\\text{w}_{4_3}$$"]
+        W244["$$\\text{w}_{4_4}$$"]
+        Bias21["$$\\text{b}_{2_1}$$"]
+        Bias22["$$\\text{b}_{2_2}$$"]
+        Bias23["$$\\text{b}_{2_3}$$"]
+        Bias24["$$\\text{b}_{2_4}$$"]
+    end
+    
+    subgraph WeightsLayer3["Output Layer Weights"]
+      direction TB
+        W311["$$\\text{w}_{1_1}$$"]
+        W321["$$\\text{w}_{1_2}$$"]
+        W331["$$\\text{w}_{1_3}$$"]
+        W341["$$\\text{w}_{1_4}$$"]
+        Bias31["$$\\text{b}_{3_1}$$"]
+    end
+    
+    %% Layers
+    A1 --- W11 --> B1
+    A1 --- W12 --> B2
+    A1 --- W13 --> B3
+    A1 --- W14 --> B4
+    A2 --- W21 --> B1
+    A2 --- W22 --> B2
+    A2 --- W23 --> B3
+    A2 --- W24 --> B4
+    A3 --- W31 --> B1
+    A3 --- W32 --> B2
+    A3 --- W33 --> B3
+    A3 --- W34 --> B4
+    A4 --- W41 --> B1
+    A4 --- W42 --> B2
+    A4 --- W43 --> B3
+    A4 --- W44 --> B4
+    
+    %% Layer 2
+    B1 --- W211 --> C1
+    B1 --- W212 --> C2
+    B1 --- W213 --> C3
+    B1 --- W214 --> C4
+    B2 --- W221 --> C1
+    B2 --- W222 --> C2
+    B2 --- W223 --> C3
+    B2 --- W224 --> C4
+    B3 --- W231 --> C1
+    B3 --- W232 --> C2
+    B3 --- W233 --> C3
+    B3 --- W234 --> C4
+    B4 --- W241 --> C1
+    B4 --- W242 --> C2
+    B4 --- W243 --> C3
+    B4 --- W244 --> C4
+    
+    %% Output Layer
+    C1 --- W311 --> D1
+    C2 --- W321 --> D1
+    C3 --- W331 --> D1
+    C4 --- W341 --> D1
+    
+    %% Bias
+    Bias11 --> B1
+    Bias12 --> B2
+    Bias13 --> B3
+    Bias14 --> B4
+    Bias21 --> C1
+    Bias22 --> C2
+    Bias23 --> C3
+    Bias24 --> C4
+    Bias31 --> D1
+    
+    %% Style
+    style Bias11 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias12 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias13 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias14 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias21 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias22 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias23 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias24 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias31 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style subGraph3 color:#000000,fill:none
+    style subGraph2 color:#000000,fill:none
+    style subGraph1 color:#000000,fill:none
+    style subGraph0 color:#000000,fill:none
+    style D1 fill:#baace6,stroke:#003700,stroke-width:1px
+    style C1 fill:#fff000,stroke:#003700,stroke-width:1px
+    style C2 fill:#fff000,stroke:#003700,stroke-width:1px
+    style C3 fill:#fff000,stroke:#003700,stroke-width:1px
+    style C4 fill:#fff000,stroke:#003700,stroke-width:1px
+    style B1 fill:#fff000,stroke:#003700,stroke-width:1px
+    style B2 fill:#fff000,stroke:#003700,stroke-width:1px
+    style B3 fill:#fff000,stroke:#003700,stroke-width:1px
+    style B4 fill:#fff000,stroke:#003700,stroke-width:1px
+    style A1 fill:#42a7f5,stroke:#003700,stroke-width:1px
+    style A2 fill:#42a7f5,stroke:#003700,stroke-width:1px
+    style A3 fill:#42a7f5,stroke:#003700,stroke-width:1px
+    style A4 fill:#42a7f5,stroke:#003700,stroke-width:1px
+    style WeightsLayer1 color:#000000,fill:none,stroke:#003700,stroke-width:1px
+    style WeightsLayer2 color:#000000,fill:none,stroke:#003700,stroke-width:1px
+    style WeightsLayer3 color:#000000,fill:none,stroke:#003700,stroke-width:1px
+```
 ##### Explanation:
 - The input layer has 4 inputs.
 - Two hidden layers of 4 neurons with 4 inputs each.
