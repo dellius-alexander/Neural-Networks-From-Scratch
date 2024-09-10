@@ -434,35 +434,35 @@ flowchart LR
     Bias31 --> D1
     
     %% Style
-    style Bias11 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
-    style Bias12 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
-    style Bias13 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
-    style Bias14 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
-    style Bias21 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
-    style Bias22 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
-    style Bias23 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
-    style Bias24 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
-    style Bias31 fill:#42f569,stroke-width:1px,stroke-dasharray: 1
-    style subGraph3 color:#000000,fill:none
-    style subGraph2 color:#000000,fill:none
-    style subGraph1 color:#000000,fill:none
-    style subGraph0 color:#000000,fill:none
-    style D1 fill:#baace6,stroke:#003700,stroke-width:1px
-    style C1 fill:#fff000,stroke:#003700,stroke-width:1px
-    style C2 fill:#fff000,stroke:#003700,stroke-width:1px
-    style C3 fill:#fff000,stroke:#003700,stroke-width:1px
-    style C4 fill:#fff000,stroke:#003700,stroke-width:1px
-    style B1 fill:#fff000,stroke:#003700,stroke-width:1px
-    style B2 fill:#fff000,stroke:#003700,stroke-width:1px
-    style B3 fill:#fff000,stroke:#003700,stroke-width:1px
-    style B4 fill:#fff000,stroke:#003700,stroke-width:1px
-    style A1 fill:#42a7f5,stroke:#003700,stroke-width:1px
-    style A2 fill:#42a7f5,stroke:#003700,stroke-width:1px
-    style A3 fill:#42a7f5,stroke:#003700,stroke-width:1px
-    style A4 fill:#42a7f5,stroke:#003700,stroke-width:1px
-    style WeightsLayer1 color:#000000,fill:none,stroke:#003700,stroke-width:1px
-    style WeightsLayer2 color:#000000,fill:none,stroke:#003700,stroke-width:1px
-    style WeightsLayer3 color:#000000,fill:none,stroke:#003700,stroke-width:1px
+    style Bias11 color:#ffffff,fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias12 color:#ffffff,fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias13 color:#ffffff,fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias14 color:#ffffff,fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias21 color:#ffffff,fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias22 color:#ffffff,fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias23 color:#ffffff,fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias24 color:#ffffff,fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style Bias31 color:#ffffff,fill:#42f569,stroke-width:1px,stroke-dasharray: 1
+    style subGraph3 color:#ffffff,fill:none
+    style subGraph2 color:#ffffff,fill:none
+    style subGraph1 color:#ffffff,fill:none
+    style subGraph0 color:#ffffff,fill:none
+    style D1 color:#ffffff,fill:#baace6,stroke:#003700,stroke-width:1px
+    style C1 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
+    style C2 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
+    style C3 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
+    style C4 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
+    style B1 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
+    style B2 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
+    style B3 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
+    style B4 color:#ffffff,fill:#fff000,stroke:#003700,stroke-width:1px
+    style A1 color:#ffffff,fill:#42a7f5,stroke:#003700,stroke-width:1px
+    style A2 color:#ffffff,fill:#42a7f5,stroke:#003700,stroke-width:1px
+    style A3 color:#ffffff,fill:#42a7f5,stroke:#003700,stroke-width:1px
+    style A4 color:#ffffff,fill:#42a7f5,stroke:#003700,stroke-width:1px
+    style WeightsLayer1 color:#ffffff,fill:none,stroke:#003700,stroke-width:1px
+    style WeightsLayer2 color:#ffffff,fill:none,stroke:#003700,stroke-width:1px
+    style WeightsLayer3 color:#ffffff,fill:none,stroke:#003700,stroke-width:1px
 ```
 ##### Explanation:
 - The input layer has 4 inputs.
