@@ -23,6 +23,7 @@ class IDense(ABC):
     dinputs: Annotated[np.ndarray, "The gradient of the loss with respect to the inputs"] = None
     dweights: Annotated[np.ndarray, "The gradients of the weights of the layer"] = None
     dbiases: Annotated[np.ndarray, "The gradients of the biases of the layer"] = None
+    activation: Annotated[Any, "The activation function of the layer"] = None
 
     @abstractmethod
     def __init__(self, n_inputs: int, n_neurons: int):

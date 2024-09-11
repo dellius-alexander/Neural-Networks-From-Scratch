@@ -79,7 +79,7 @@ def cross_entropy_loss(y_true: Matrix,
     except Exception as e:
         log.error(e)
         raise e
-    return __loss__, __losses__
+    return __loss__, np.array(__losses__)
 
 
 def sort_cross_entropy_loss(__predicted_probs: np.ndarray, __cross_entropy_losses: np.ndarray) -> tuple[
