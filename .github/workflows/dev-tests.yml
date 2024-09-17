@@ -34,11 +34,29 @@ jobs:
           pip install -r requirements-dev.txt
           # Code formatting with black, check every python file 
           #   in the crud_repository directory 
-          black src/ --check
-          black tests/ --check
-          black notebooks/ --check
+          black src/ 
+          black tests/ 
+          black notebooks/ 
 
       # Task for testing with pytest
       - name: Test with pytest
         run: |
           pytest tests/
+
+      # Task for testing with pytest
+      - name: Configure Git user
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      # Task for testing with pytest
+      - name: Commit and push changes
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          git add . &&
+          git commit -m "Auto-format code with black"
+          git push origin ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
