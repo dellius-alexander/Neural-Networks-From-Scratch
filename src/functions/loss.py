@@ -182,7 +182,7 @@ def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[
                                 \nPredicted probabilities: \n{y_pred.shape}
                                 \nTrue labels: \n{y_true.shape}""")
 
-        # Attempt to reshape if the shapes don't match
+        # 1. Attempt to reshape if the shapes don't match
         if y_true.shape != y_pred.shape and __mismatch_type["reshape"]['message'] == 'None':
             try:
                 # Reshape the true labels by inverting the shape to possibly match the predicted probabilities
@@ -199,7 +199,7 @@ def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[
                 log.error(e)
                 raise e
 
-        # Attempt to transpose if the shapes don't match
+        # 2. Attempt to transpose if the shapes don't match
         if y_true.shape != y_pred.shape and __mismatch_type["transpose"]['message'] == 'None':
             try:
                 # Transpose the true labels to match the predicted probabilities
@@ -216,7 +216,7 @@ def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[
                 log.error(e)
                 raise e
 
-        # Attempt to concatenate if the shapes don't match
+        # 3. Attempt to concatenate if the shapes don't match
         if y_true.shape != y_pred.shape and __mismatch_type["concatenate"]['message'] == 'None':
             try:
                 # Concatenate the true labels to match the predicted probabilities
@@ -234,7 +234,7 @@ def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[
                 log.error(e)
                 raise e
 
-        # Attempt to broadcast if the shapes don't match
+        # 4. Attempt to broadcast if the shapes don't match
         if y_true.shape != y_pred.shape and __mismatch_type["broadcast"]['message'] == 'None':
             try:
                 # Broadcast the true labels to match the predicted probabilities
@@ -251,7 +251,7 @@ def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[
                 log.error(e)
                 raise e
 
-        # Attempt to expand dimensions if the shapes don't match
+        # 5. Attempt to expand dimensions if the shapes don't match
         if y_true.shape != y_pred.shape and __mismatch_type["expand_dims"]['message'] == 'None':
             try:
                 # Expand dimensions of the true labels to match the predicted probabilities
@@ -269,7 +269,7 @@ def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[
                 log.error(e)
                 raise e
 
-        # Attempt to squeeze if the shapes don't match
+        # 6. Attempt to squeeze if the shapes don't match
         if y_true.shape != y_pred.shape and __mismatch_type["squeeze"]['message'] == 'None':
             try:
                 # Squeeze the true labels to match the predicted probabilities
