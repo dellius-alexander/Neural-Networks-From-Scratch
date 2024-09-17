@@ -1,9 +1,8 @@
 from abc import abstractmethod, ABC
-from typing import Annotated, Tuple, Any, List
+from typing import Annotated, Any, List
 
 import numpy as np
 import pandas as pd
-from numpy import ndarray, dtype
 
 from src.functions.loss import cross_entropy_loss
 from src.utils.logger import getLogger

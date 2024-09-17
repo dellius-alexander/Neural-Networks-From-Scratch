@@ -1,21 +1,15 @@
 import time
-
 from scipy.ndimage import zoom
 import numpy as np
-from unittest import TestCase
 import unittest
 
-# from src.utils.logger import getLogger
+from src.utils.datasets import create_vertical_data
 from src.layer.dense import Dense
 from src.functions.activation import Softmax, ReLU
-from src.utils.datasets import create_vertical_data
-
-# # Create a logger
-# log = getLogger(__name__)
 
 
 # Test the accuracy of the model
-class TestAccuracy(TestCase):
+class TestAccuracy(unittest.TestCase):
 
     # setup inputs and ground truth labels
     def setUp(self):
