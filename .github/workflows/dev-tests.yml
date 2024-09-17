@@ -54,9 +54,9 @@ jobs:
       - name: Commit and push changes
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          git add -A 
-          git commit -m "Auto-format code with black"
-          git push origin ${{ github.ref }} -f
+          git add -A &2>1 /dev/null
+          git commit -m "Auto-format code with black" &2>1 /dev/null
+          git push origin ${{ github.ref }} -f &2>1 /dev/null
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
