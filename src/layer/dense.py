@@ -1,4 +1,5 @@
 from abc import abstractmethod, ABC
+
 # TODO: Annotated added in python version 3.9 and above
 from typing import Annotated, Any, List
 
@@ -184,61 +185,61 @@ class Dense(IDense):
         return f"Dense Layer: {self.weights.shape[0]} inputs, {self.weights.shape[1]} neurons"
 
 
-if __name__ == "__main__":
-    # Now we create a dense layer with 3 neurons with 2 inputs each
-    # and 2 dense layers; the first layer has 3 neurons with 2 inputs
-    # each and the second layer has 3 neurons with 3 inputs each.
-    from src.utils.datasets import create_spiral_dataset
-    from src.functions.activation import Softmax, ReLU
-    import numpy as np
-
-    # Initialize activation function
-    softmax = Softmax()
-    relu = ReLU()
-
-    # Create a spiral dataset
-    X, y = create_spiral_dataset(100, 3)
-    log.info(f"Inputs: {X.shape}")
-    log.info(f"Y is a spiral dataset: {y.shape}")
-    # Create a dense layer with 3 neurons with 2 inputs each
-    dense = Dense(2, 3)
-
-    # Lets do the forward pass
-    dense.forward(X)
-    log.info(f"Weights Layer 1: {dense.weights.shape}")
-    log.info(f"Biases Layer 1: {dense.biases.shape}")
-    log.info(f"Output Layer 1: {dense.output.shape}")
-
-    # Run the activation function ReLU
-    dense.output = relu(dense.output)
-
-    # Create a dense layer with 3 neurons with 3 inputs each
-    dense2 = Dense(3, 3)
-
-    # Lets do the forward pass
-    dense2.forward(dense.output)
-    log.info(f"Weights Layer 2: {dense2.weights.shape}")
-    log.info(f"Biases Layer 2: {dense2.biases.shape}")
-    log.info(f"Output Layer 2: {dense2.output.shape}")
-
-    # TODO: These final outputs are also our “confidence scores.” The higher the confidence score, the more confident the model is that the input belongs to that class.
-    # Run the activation function ReLU
-    predictions = softmax(dense2.output)
-    log.info(f"Predictions: {predictions.shape}")
-    log.info(f"Predictions Data: \n{predictions[:5]}")
-    log.info(f"Ground Truth: {y.shape}")
-
-    # Match the size of predictions to the size of y
-    predictions = np.array([predictions[range(len(predictions)), y]])
-    log.info(f"Predictions: {predictions.shape}")
-    log.info(f"Predictions Data: \n{predictions[:5]}")
-
-    # Calculate the loss and print the results to 7 decimal places
-    avg_loss, loss = dense2.loss(predictions, np.array([y]))
-    log.info(f"Loss: {avg_loss:.7f}")  # Loss: 5.7037784
-    log.info(f"Loss Data: \n{loss[:5]}")
-
-    # Run ArgMax to get the predicted class
-    predicted_class = np.argmax(predictions, axis=1)
-    log.info(f"Predicted Class: {predicted_class.shape}")
-    log.info(f"Predicted Class Data: \n{predicted_class[:5]}")
+# if __name__ == "__main__":
+#     # Now we create a dense layer with 3 neurons with 2 inputs each
+#     # and 2 dense layers; the first layer has 3 neurons with 2 inputs
+#     # each and the second layer has 3 neurons with 3 inputs each.
+#     from src.utils.datasets import create_spiral_dataset
+#     from src.functions.activation import Softmax, ReLU
+#     import numpy as np
+#
+#     # Initialize activation function
+#     softmax = Softmax()
+#     relu = ReLU()
+#
+#     # Create a spiral dataset
+#     X, y = create_spiral_dataset(100, 3)
+#     log.info(f"Inputs: {X.shape}")
+#     log.info(f"Y is a spiral dataset: {y.shape}")
+#     # Create a dense layer with 3 neurons with 2 inputs each
+#     dense = Dense(2, 3)
+#
+#     # Lets do the forward pass
+#     dense.forward(X)
+#     log.info(f"Weights Layer 1: {dense.weights.shape}")
+#     log.info(f"Biases Layer 1: {dense.biases.shape}")
+#     log.info(f"Output Layer 1: {dense.output.shape}")
+#
+#     # Run the activation function ReLU
+#     dense.output = relu(dense.output)
+#
+#     # Create a dense layer with 3 neurons with 3 inputs each
+#     dense2 = Dense(3, 3)
+#
+#     # Lets do the forward pass
+#     dense2.forward(dense.output)
+#     log.info(f"Weights Layer 2: {dense2.weights.shape}")
+#     log.info(f"Biases Layer 2: {dense2.biases.shape}")
+#     log.info(f"Output Layer 2: {dense2.output.shape}")
+#
+#     # TODO: These final outputs are also our “confidence scores.” The higher the confidence score, the more confident the model is that the input belongs to that class.
+#     # Run the activation function ReLU
+#     predictions = softmax(dense2.output)
+#     log.info(f"Predictions: {predictions.shape}")
+#     log.info(f"Predictions Data: \n{predictions[:5]}")
+#     log.info(f"Ground Truth: {y.shape}")
+#
+#     # Match the size of predictions to the size of y
+#     predictions = np.array([predictions[range(len(predictions)), y]])
+#     log.info(f"Predictions: {predictions.shape}")
+#     log.info(f"Predictions Data: \n{predictions[:5]}")
+#
+#     # Calculate the loss and print the results to 7 decimal places
+#     avg_loss, loss = dense2.loss(predictions, np.array([y]))
+#     log.info(f"Loss: {avg_loss:.7f}")  # Loss: 5.7037784
+#     log.info(f"Loss Data: \n{loss[:5]}")
+#
+#     # Run ArgMax to get the predicted class
+#     predicted_class = np.argmax(predictions, axis=1)
+#     log.info(f"Predicted Class: {predicted_class.shape}")
+#     log.info(f"Predicted Class Data: \n{predicted_class[:5]}")

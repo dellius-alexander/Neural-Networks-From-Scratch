@@ -35,6 +35,8 @@ jobs:
           # Code formatting with black, check every python file 
           #   in the crud_repository directory 
           black src/ --check
+          black tests/ --check
+          black notebooks/ --check
 
       # Task for testing with pytest
       - name: Test with pytest
