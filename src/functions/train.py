@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import os
+from concurrent.futures import ProcessPoolExecutor, as_completed
+import numpy as np
+from scipy.ndimage import zoom
+from typing_extensions import Tuple
 
 from src.functions.activation import Activation
-import numpy as np
+from src.utils.logger import getLogger
 
-
+log = getLogger(__name__)
 
 def train_model(
         features: np.ndarray,
@@ -52,4 +57,116 @@ def train_model(
 
     return weights, bias, error_sum
 
+
+"""Parallel Training of Neural Networks with Ray Tune."""
+
+def train_epoch(epoch, X, y, dense, dense2, relu, softmax) -> Tuple:
+    """Train the model for one epoch and return the epoch number,
+    loss, accuracy, weights, and biases.
+
+    :param epoch: (int): The epoch number
+    :param X: (np.ndarray): The input data
+    :param y: (np.ndarray): The ground truth labels
+    :param dense: (Dense): The first dense layer
+    :param dense2: (Dense): The second dense layer
+    :param relu: (ReLU): The ReLU activation function
+    :param softmax: (Softmax): The softmax activation function
+    :return: (tuple): The epoch number, loss, accuracy, weights, and biases
+    """
+    # Generate a new set of weights and biases for each iteration
+    dense.weights = 0.5 * np.random.randn(dense.weights.shape[0], dense.weights.shape[1])
+    dense.biases = 0.1 * np.random.randn(dense.biases.shape[0], dense.biases.shape[1])
+    dense2.weights = 0.5 * np.random.randn(dense2.weights.shape[0], dense2.weights.shape[1])
+    dense2.biases = 0.1 * np.random.randn(dense2.biases.shape[0], dense2.biases.shape[1])
+    y_copy = y.copy()
+
+    # Forward pass
+    dense.forward(X)
+    dense.activation = relu(dense.output)
+    dense2.forward(dense.activation)
+    predictions = softmax(dense2.output)
+
+    # Reshape the ground truth labels if transformed during the forward pass
+    if len(y_copy.shape) == 1:
+        y_copy = np.array([y_copy])
+    elif len(y_copy.shape) > 2:
+        y_copy = np.array([y_copy]).reshape(-1, 1)
+
+    # Match the size of predictions to the size of y
+    if (y_copy.shape[1], y_copy.shape[0]) != predictions.shape \
+            or (y_copy.shape[0], y_copy.shape[1]) != predictions.shape:
+        zoom_factor = np.array(y_copy.shape) / np.array(predictions.shape)
+        predictions = zoom(predictions, zoom_factor, order=3)
+
+    # Calculate the loss
+    avg_loss, loss = dense2.loss(predictions, y_copy)
+
+    # One-hot encode the predictions
+    if len(predictions.shape) >= 2:
+        predictions_class = np.argmax(predictions, axis=1)
+    elif len(predictions.shape) == 1:
+        predictions_class = np.argmax(predictions, axis=0)
+    else:
+        predictions_class = np.argmax(predictions)
+
+    # One-hot encode the ground truth labels
+    if len(y_copy.shape) >= 2:
+        y_copy = np.argmax(y_copy, axis=1)
+    elif len(y_copy.shape) == 1:
+        y_copy = np.argmax(y_copy, axis=0)
+    else:
+        y_copy = np.argmax(y_copy)
+
+    # Calculate the accuracy
+    accuracy = np.mean(predictions_class == y_copy)
+    log.info(f"Epoch: {epoch}, Loss: {avg_loss:.7f}, Accuracy: {accuracy:.7f}")
+    return (epoch,
+            avg_loss,
+            accuracy,
+            dense.weights.copy(),
+            dense.biases.copy(),
+            dense2.weights.copy(),
+            dense2.biases.copy())
+
+
+def parallel_training(epochs, X, y, dense, dense2, relu, softmax) -> Tuple:
+    """Train the model in parallel using ProcessPoolExecutor and return the
+    best epoch, loss, accuracy, weights, and biases.
+
+    :param epochs: (int): The number of epochs
+    :param X: (np.ndarray): The input data
+    :param y: (np.ndarray): The ground truth labels
+    :param dense: (Dense): The first dense layer
+    :param dense2: (Dense): The second dense layer
+    :param relu: (ReLU): The ReLU activation function
+    :param softmax: (Softmax): The softmax activation function
+    :return: (tuple): The best epoch, loss, accuracy, weights, and biases
+    """
+    # Create variables to store the best model metrics
+    lowest_loss = np.inf
+    best_accuracy = 0
+    best_epoch = 0
+    best_weights = np.array([])
+    best_biases = np.array([])
+    best_weights2 = np.array([])
+    best_biases2 = np.array([])
+    cpu_count = os.cpu_count()
+
+    # Train the model in parallel using ProcessPoolExecutor
+    with ProcessPoolExecutor(max_workers=cpu_count) as executor:
+        # Submit the training tasks to the executor
+        futures = [executor.submit(train_epoch, epoch, X, y, dense, dense2, relu, softmax) for epoch in range(epochs)]
+        # Iterate over the completed futures to find the best model metrics
+        for future in as_completed(futures):
+            __best_epoch, __lowest_loss, __best_accuracy, __best_weights, __best_biases, __best_weights2, __best_biases2 = future.result()
+            # Evaluate the best model based on the lowest loss and highest accuracy
+            if __lowest_loss < lowest_loss or __best_accuracy > best_accuracy:
+                lowest_loss = __lowest_loss
+                best_accuracy = __best_accuracy
+                best_epoch = __best_epoch
+                best_weights = __best_weights
+                best_biases = __best_biases
+                best_weights2 = __best_weights2
+                best_biases2 = __best_biases2
+    return best_epoch, lowest_loss, best_accuracy, best_weights, best_biases, best_weights2, best_biases2
 
