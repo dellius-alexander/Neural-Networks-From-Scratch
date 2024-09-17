@@ -4,6 +4,7 @@ from scipy.ndimage import zoom
 import numpy as np
 from unittest import TestCase
 import unittest
+
 # from src.utils.logger import getLogger
 from src.layer.dense import Dense
 from src.functions.activation import Softmax, ReLU
@@ -15,7 +16,7 @@ from src.utils.datasets import create_vertical_data
 
 # Test the accuracy of the model
 class TestAccuracy(TestCase):
-    
+
     # setup inputs and ground truth labels
     def setUp(self):
         self.start_time = time.time()
@@ -72,8 +73,10 @@ class TestAccuracy(TestCase):
                 y_copy = np.array([y_copy]).reshape(-1, 1)
 
             # Match the size of predictions to the size of y
-            if (y_copy.shape[1], y_copy.shape[0]) != predictions.shape \
-                    or (y_copy.shape[0], y_copy.shape[1]) != predictions.shape:
+            if (y_copy.shape[1], y_copy.shape[0]) != predictions.shape or (
+                y_copy.shape[0],
+                y_copy.shape[1],
+            ) != predictions.shape:
                 zoom_factor = np.array(y_copy.shape) / np.array(predictions.shape)
                 predictions = zoom(predictions, zoom_factor, order=3)
 
@@ -101,7 +104,9 @@ class TestAccuracy(TestCase):
 
             # Check if the loss is lower than the previous lowest loss
             if avg_loss < lowest_loss:
-                print(f"Epoch: {epoch}, Next Lowest Loss: {avg_loss:.7f}, Next Highest Accuracy: {accuracy:.7f}")
+                print(
+                    f"Epoch: {epoch}, Next Lowest Loss: {avg_loss:.7f}, Next Highest Accuracy: {accuracy:.7f}"
+                )
                 best_epoch = epoch
                 lowest_loss = avg_loss
                 best_accuracy = accuracy
@@ -112,15 +117,15 @@ class TestAccuracy(TestCase):
 
             # Print the best weights and biases when the epoch is complete
             if epoch == self.epochs - 1:
-                print(f"Best Epoch: {best_epoch}, Best Loss: {lowest_loss:.7f}, Best Accuracy: {best_accuracy:.7f}")
+                print(
+                    f"Best Epoch: {best_epoch}, Best Loss: {lowest_loss:.7f}, Best Accuracy: {best_accuracy:.7f}"
+                )
                 print(f"Best Weights Layer 1: \n{best_weights}")
                 print(f"Best Biases Layer 1: \n{best_biases}")
                 print(f"Best Weights Layer 2: \n{best_weights2}")
                 print(f"Best Biases Layer 2: \n{best_biases2}")
                 print(f"Duration: {time.time() - self.start_time}")
 
+
 if __name__ == "__main__":
     unittest.main()
-
-
-

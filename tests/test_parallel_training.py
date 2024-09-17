@@ -7,6 +7,7 @@ from src.functions.train import parallel_training
 from src.layer.dense import Dense
 from src.utils.datasets import create_vertical_data
 import numpy as np
+
 # from src.utils.logger import getLogger
 import unittest
 
@@ -38,22 +39,23 @@ class TestAccuracyInParallel(unittest.TestCase):
         print(f"Biases Layer 2: {self.dense2.biases.shape}")
 
     def test_accuracy_in_parallel(self):
-        (best_epoch,
-         lowest_loss,
-         best_accuracy,
-         best_weights,
-         best_biases,
-         best_weights2,
-         best_biases2) = \
-            parallel_training(
-                self.epochs,
-                self.inputs,
-                self.y_true,
-                self.dense,
-                self.dense2,
-                self.relu,
-                self.softmax,
-            )
+        (
+            best_epoch,
+            lowest_loss,
+            best_accuracy,
+            best_weights,
+            best_biases,
+            best_weights2,
+            best_biases2,
+        ) = parallel_training(
+            self.epochs,
+            self.inputs,
+            self.y_true,
+            self.dense,
+            self.dense2,
+            self.relu,
+            self.softmax,
+        )
 
         self.assertIsNotNone(best_epoch)
         self.assertIsNotNone(lowest_loss)
@@ -65,7 +67,8 @@ class TestAccuracyInParallel(unittest.TestCase):
         self.assertIsNotNone(best_weights2)
         self.assertIsNotNone(best_biases2)
 
-        print(f"""
+        print(
+            f"""
         Best Epoch: {best_epoch}
         Lowest Loss: {lowest_loss}
         Best Accuracy: {best_accuracy}
@@ -74,9 +77,9 @@ class TestAccuracyInParallel(unittest.TestCase):
         Best Weights2: \n{best_weights2}
         Best Biases2: \n{best_biases2}
         Duration: {time.time() - self.start_time}
-        """)
+        """
+        )
 
 
 if __name__ == "__main__":
     unittest.main()
-
