@@ -1,0 +1,48 @@
+# github workflow to test project in dev environment
+name: Dev Tests
+env:
+  TZ: 'America/New_York'
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+on:
+  push:
+    branches:
+      - dev
+      - main
+  pull_request:
+    branches:
+      - dev
+      - main
+jobs:
+  setup-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.8", "3.9",  "3.10" ]
+    steps:
+      # Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+      # Task for linting with black
+      - name: Lint with black and Install dependencies
+        run: |
+          # Create requirements-dev.txt file from requirements.txt
+          cat requirements.txt | grep -v gunicorn > requirements-dev.txt
+          printf """black
+          pytest
+          """ >> requirements-dev.txt
+          # Install dependencies
+          pip install -r requirements-dev.txt
+          # Code formatting with black, check every python file 
+          #   in the crud_repository directory 
+          black --check src/
+
+      # Task for testing with pytest
+      - name: Test with pytest
+        run: |
+          pytest tests/
