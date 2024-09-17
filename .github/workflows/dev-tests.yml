@@ -34,7 +34,7 @@ jobs:
           pip install -r requirements-dev.txt
           # Code formatting with black, check every python file 
           #   in the crud_repository directory 
-          black --check src/
+          black src/ --check
 
       # Task for testing with pytest
       - name: Test with pytest

@@ -78,8 +78,11 @@ try:
         else:
             print(f"Environment variables not loaded.")
 except Exception as e:
-    print(f"Error loading environment variables: {e}")
-    exit(1)
+    if "File not found" in str(e):
+        print(f"Environment variables file not found.")
+        print(f"Continuing without loading environment variables.")
+    else:
+        print(f"Error loading environment variables: {e}")
 # --------------------------------------------------------------
 # Define and Create project environment
 # --------------------------------------------------------------
