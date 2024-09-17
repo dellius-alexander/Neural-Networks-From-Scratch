@@ -49,7 +49,7 @@ jobs:
       - name: Configure Git user
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          rm /home/runner/work/Neural-Networks-From-Scratch/Neural-Networks-From-Scratch/.git/index.lock &2>/dev/null
+          rm /home/runner/work/Neural-Networks-From-Scratch/.git/index.lock &2>/dev/null
           git config --global user.name $USER_NAME
           git config --global user.email $USER_EMAIL
         env:
