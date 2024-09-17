@@ -3,6 +3,8 @@ name: Dev Tests
 env:
   TZ: 'America/New_York'
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  USER_NAME: ${{ secrets.USER_NAME }}
+  USER_EMAIL: ${{ secrets.USER_EMAIL }}
 on:
   push:
     branches:
@@ -47,8 +49,12 @@ jobs:
       - name: Configure Git user
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config --global user.name $USER_NAME
+          git config --global user.email $USER_EMAIL
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USER_NAME: ${{ secrets.USER_NAME }}
+          USER_EMAIL: ${{ secrets.USER_EMAIL }}
 
       # Task for testing with pytest
       - name: Commit and push changes
