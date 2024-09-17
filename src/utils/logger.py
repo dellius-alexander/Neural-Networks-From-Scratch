@@ -17,13 +17,13 @@ def getLogger(name: str, level: str = os.getenv("LOG_LEVEL", "DEBUG")):
     caller_filename = get_calling_filename()
     if name == '__main__':
         logger = logging.getLogger(name=name)
-        logger.debug(f"Loggers: {logger.name}")
+        # logger.debug(f"Loggers: {logger.name}")
     elif caller_filename.__contains__(name):
         logger = logging.getLogger(name=name)
-        logger.debug(f"Loggers: {logger.name}")
+        # logger.debug(f"Loggers: {logger.name}")
     else:
         logger = logging.getLogger(caller_filename.split('/')[-1])
-        logger.debug(f"Loggers: {logger.name}")
+        # logger.debug(f"Loggers: {logger.name}")
     logger.setLevel(level)
     reduce_log_dir(5, logger)
 
@@ -47,8 +47,9 @@ def reduce_log_dir(size: int, logger: logging.Logger):
             for i in range(len(logs) - size):
                 log_file = os.path.join(log_dir, logs[i])
                 os.remove(log_file)
-                logger.debug(f"Removed log file: {log_file}")
-
+                # logger.debug(f"Removed log file: {log_file}")
+    else:
+        logger.debug("No log directory specified")
 # # Example usage
 # if __name__ == "__main__":
 #     log = getLogger(__name__.__class__.__str__('utf-8'))
