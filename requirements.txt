@@ -2,9 +2,9 @@ jupyter
 jupyterlab
 matplotlib
 numpy==1.26.4
-pandas
-scikit-learn
-plotly
+pandas~=2.2.2
+scikit-learn~=1.5.1
+plotly~=5.23.0
 joblib
 tensorflow>=2.16.2
 python-dotenv==1.0.1
@@ -14,5 +14,9 @@ pyarrow==17.0.0
 argon2-cffi==23.1.0
 kaleido==0.2.1
 tornado
-IPython
-requests
+IPython~=8.26.0
+requests~=2.32.3
+
+typing_extensions~=4.12.2
+jupyter_server~=2.14.2
+scipy~=1.14.0

@@ -1,0 +1,6 @@
+-r requirements.txt
+pytest==8.3.3
+# pytest-cov is a plugin for pytest that generates coverage reports
+pytest-cov
+pytest-anyio
+black
