@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ "3.9", "3.10",  "3.11", "3.12" ]
+        python-version: [ "3.9" ]
     steps:
       # Set up Python
       - name: Set up Python ${{ matrix.python-version }}
@@ -54,9 +54,9 @@ jobs:
       - name: Commit and push changes
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          git add . &&
+          git add -A 
           git commit -m "Auto-format code with black"
-          git push origin ${{ github.ref }}
+          git push origin ${{ github.ref }} -f
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
