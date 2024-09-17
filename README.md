@@ -1,3 +1,7 @@
+[![Dev Tests](https://github.com/dellius-alexander/Neural-Networks-From-Scratch/actions/workflows/dev-tests.yml/badge.svg?branch=main)](https://github.com/dellius-alexander/Neural-Networks-From-Scratch/actions/workflows/dev-tests.yml)
+
+---
+
 # Neural Network From Scratch
 
 ---

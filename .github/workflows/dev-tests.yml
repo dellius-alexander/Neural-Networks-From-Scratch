@@ -31,12 +31,6 @@ jobs:
       # Task for linting with black
       - name: Lint with black and Install dependencies
         run: |
-          # Create requirements-dev.txt file from requirements.txt
-          cat requirements.txt | grep -v gunicorn > requirements-dev.txt
-          printf """black
-          pytest
-          """ >> requirements-dev.txt
-          # Install dependencies
           pip install -r requirements-dev.txt
           # Code formatting with black, check every python file 
           #   in the crud_repository directory 
