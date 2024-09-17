@@ -46,7 +46,7 @@ class IDense(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def backward(self, dvalues: N_Neurons) -> N_Inputs:
+    def backward(self, dvalues: N_Neurons, learning_rate: float) -> N_Inputs:
         """
         Backward pass of the layer.
         Calculate the gradient of the loss with respect to the inputs
@@ -98,7 +98,7 @@ class Dense(IDense):
         :param n_inputs: int: The number of inputs to the layer
         :param n_neurons: int: The number of neurons in the layer
         """
-        self.weights = 0.01 * np.random.randn(n_inputs, n_neurons)
+        self.weights = 0.05 * np.random.randn(n_inputs, n_neurons)
         self.biases = np.zeros((1, n_neurons))
 
     def forward(self, inputs: N_Inputs) -> N_Neurons:
@@ -112,16 +112,27 @@ class Dense(IDense):
         self.output = np.dot(inputs, self.weights) + self.biases
         return self.output
 
-    def backward(self, dvalues: N_Neurons) -> N_Inputs:
+    def backward(self, dvalues: N_Neurons, learning_rate: float) -> N_Inputs:
         """
-        Backward pass of the layer.
-        Calculate the gradient of the loss with respect to the inputs
-        :param dvalues: N_Neurons: The gradient of the loss with respect to the output values
+        Perform the backward pass and update weights and biases.
+
+        :param dvalues: N_Neurons: The gradient of the loss with respect to the outputs
+        :param learning_rate: float: The learning rate
         :return: N_Inputs: The gradient of the loss with respect to the inputs
         """
+        # Gradient of the loss with respect to weights
         self.dweights = np.dot(self.inputs.T, dvalues)
+
+        # Gradient of the loss with respect to biases
         self.dbiases = np.sum(dvalues, axis=0, keepdims=True)
+
+        # Gradient of the loss with respect to inputs
         self.dinputs = np.dot(dvalues, self.weights.T)
+
+        # Update weights and biases using the learning rate
+        self.weights -= learning_rate * self.dweights
+        self.biases -= learning_rate * self.dbiases
+
         return self.dinputs
 
     def params(self) -> tuple:
