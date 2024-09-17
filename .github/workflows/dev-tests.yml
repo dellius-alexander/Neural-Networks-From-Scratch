@@ -49,6 +49,7 @@ jobs:
       - name: Configure Git user
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
+          rm .git/index.lock &2>/dev/null
           git config --global user.name $USER_NAME
           git config --global user.email $USER_EMAIL
         env:
