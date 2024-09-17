@@ -69,14 +69,15 @@ class TestAccuracyInParallel(unittest.TestCase):
 
         print(
             f"""
-        Best Epoch: {best_epoch}
-        Lowest Loss: {lowest_loss}
-        Best Accuracy: {best_accuracy}
-        Best Weights: \n{best_weights}
-        Best Biases: \n{best_biases}
-        Best Weights2: \n{best_weights2}
-        Best Biases2: \n{best_biases2}
-        Duration: {time.time() - self.start_time}
+Total Epochs: {self.epochs}
+Best Epoch: {best_epoch}
+Lowest Loss: {lowest_loss}
+Best Accuracy: {best_accuracy}
+Best Weights: \n{best_weights}
+Best Biases: \n{best_biases}
+Best Weights2: \n{best_weights2}
+Best Biases2: \n{best_biases2}
+Duration: {time.time() - self.start_time}
         """
         )
 

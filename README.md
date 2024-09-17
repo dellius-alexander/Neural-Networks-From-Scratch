@@ -1,5 +1,10 @@
 [![Dev Tests](https://github.com/dellius-alexander/Neural-Networks-From-Scratch/actions/workflows/dev-tests.yml/badge.svg?branch=main)](https://github.com/dellius-alexander/Neural-Networks-From-Scratch/actions/workflows/dev-tests.yml)
 
+![Python 3.9](https://img.shields.io/badge/Python-3.9-blue)
+![Python 3.10](https://img.shields.io/badge/Python-3.10-blue)
+![Python 3.11](https://img.shields.io/badge/Python-3.11-blue)
+![Python 3.12](https://img.shields.io/badge/Python-3.12-blue)
+
 ---
 
 # Neural Network From Scratch

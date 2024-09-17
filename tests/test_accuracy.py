@@ -111,6 +111,7 @@ class TestAccuracy(unittest.TestCase):
 
             # Print the best weights and biases when the epoch is complete
             if epoch == self.epochs - 1:
+                print(f"Total Epochs: {self.epochs}")
                 print(
                     f"Best Epoch: {best_epoch}, Best Loss: {lowest_loss:.7f}, Best Accuracy: {best_accuracy:.7f}"
                 )
