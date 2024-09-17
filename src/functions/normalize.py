@@ -6,7 +6,11 @@ import numpy as np
 import pandas as pd
 
 
-Dataset = Annotated[Union[np.ndarray, pd.DataFrame, List], "A pandas DataFrame, numpy array, or list of data"]
+Dataset = Annotated[
+    Union[np.ndarray, pd.DataFrame, List],
+    "A pandas DataFrame, numpy array, or list of data",
+]
+
 
 # Normalize the dataset
 def normalize_data(data: Dataset) -> Dataset:

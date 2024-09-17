@@ -6,8 +6,12 @@ import numpy as np
 
 
 def encode(
-        raw_labels_or_words: Annotated[Union[np.ndarray[Any], List[Any]], "The raw labels or words to encode"],
-        dtype: Annotated[np.dtype, "The data type of the encoded labels or words to use"] = np.float32
+    raw_labels_or_words: Annotated[
+        Union[np.ndarray[Any], List[Any]], "The raw labels or words to encode"
+    ],
+    dtype: Annotated[
+        np.dtype, "The data type of the encoded labels or words to use"
+    ] = np.float32,
 ) -> np.ndarray:
     """Encode the raw labels or words into ASCII values.
 
@@ -24,16 +28,16 @@ def encode(
             label = label.lower()
             encoding.clear()
             for char in label:
-                if len(char.encode('utf-8')) > 1:
+                if len(char.encode("utf-8")) > 1:
                     encoding.extend(encode([char], dtype))
                 elif char == " ":
-                    encoding.append(" ".encode('utf-8').__hash__())
+                    encoding.append(" ".encode("utf-8").__hash__())
                 elif char == "\n":
-                    encoding.append("\n".encode('utf-8').__hash__())
+                    encoding.append("\n".encode("utf-8").__hash__())
                 elif char == "\t":
-                    encoding.append("\t".encode('utf-8').__hash__())
+                    encoding.append("\t".encode("utf-8").__hash__())
                 elif char == "\r":
-                    encoding.append("\r".encode('utf-8').__hash__())
+                    encoding.append("\r".encode("utf-8").__hash__())
                 else:
                     encoding.append(ord(char))
             normalized_mean = np.mean(encoding)
@@ -45,12 +49,9 @@ def encode(
         elif isinstance(label, float):
             encodings.append(label)
         # recursive case for list or np.ndarray
-        elif isinstance (label, (np.ndarray, list)):
+        elif isinstance(label, (np.ndarray, list)):
             encodings.extend(encode(label, dtype))
     return np.array([encodings], dtype=dtype, ndmin=ndim)
-
-
-
 
 
 if __name__ == "__main__":

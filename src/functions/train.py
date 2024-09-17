@@ -11,12 +11,14 @@ from src.utils.logger import getLogger
 
 log = getLogger(__name__)
 
+
 def train_model(
-        features: np.ndarray,
-        labels: np.ndarray,
-        activation: Activation,
-        epochs: int,
-        learning_rate: float):
+    features: np.ndarray,
+    labels: np.ndarray,
+    activation: Activation,
+    epochs: int,
+    learning_rate: float,
+):
     # Set seed for reproducibility
     np.random.seed(42)
 
@@ -60,6 +62,7 @@ def train_model(
 
 """Parallel Training of Neural Networks with Ray Tune."""
 
+
 def train_epoch(epoch, X, y, dense, dense2, relu, softmax) -> Tuple:
     """Train the model for one epoch and return the epoch number,
     loss, accuracy, weights, and biases.
@@ -74,10 +77,16 @@ def train_epoch(epoch, X, y, dense, dense2, relu, softmax) -> Tuple:
     :return: (tuple): The epoch number, loss, accuracy, weights, and biases
     """
     # Generate a new set of weights and biases for each iteration
-    dense.weights = 0.5 * np.random.randn(dense.weights.shape[0], dense.weights.shape[1])
+    dense.weights = 0.5 * np.random.randn(
+        dense.weights.shape[0], dense.weights.shape[1]
+    )
     dense.biases = 0.1 * np.random.randn(dense.biases.shape[0], dense.biases.shape[1])
-    dense2.weights = 0.5 * np.random.randn(dense2.weights.shape[0], dense2.weights.shape[1])
-    dense2.biases = 0.1 * np.random.randn(dense2.biases.shape[0], dense2.biases.shape[1])
+    dense2.weights = 0.5 * np.random.randn(
+        dense2.weights.shape[0], dense2.weights.shape[1]
+    )
+    dense2.biases = 0.1 * np.random.randn(
+        dense2.biases.shape[0], dense2.biases.shape[1]
+    )
     y_copy = y.copy()
 
     # Forward pass
@@ -93,8 +102,10 @@ def train_epoch(epoch, X, y, dense, dense2, relu, softmax) -> Tuple:
         y_copy = np.array([y_copy]).reshape(-1, 1)
 
     # Match the size of predictions to the size of y
-    if (y_copy.shape[1], y_copy.shape[0]) != predictions.shape \
-            or (y_copy.shape[0], y_copy.shape[1]) != predictions.shape:
+    if (y_copy.shape[1], y_copy.shape[0]) != predictions.shape or (
+        y_copy.shape[0],
+        y_copy.shape[1],
+    ) != predictions.shape:
         zoom_factor = np.array(y_copy.shape) / np.array(predictions.shape)
         predictions = zoom(predictions, zoom_factor, order=3)
 
@@ -120,13 +131,15 @@ def train_epoch(epoch, X, y, dense, dense2, relu, softmax) -> Tuple:
     # Calculate the accuracy
     accuracy = np.mean(predictions_class == y_copy)
     log.info(f"Epoch: {epoch}, Loss: {avg_loss:.7f}, Accuracy: {accuracy:.7f}")
-    return (epoch,
-            avg_loss,
-            accuracy,
-            dense.weights.copy(),
-            dense.biases.copy(),
-            dense2.weights.copy(),
-            dense2.biases.copy())
+    return (
+        epoch,
+        avg_loss,
+        accuracy,
+        dense.weights.copy(),
+        dense.biases.copy(),
+        dense2.weights.copy(),
+        dense2.biases.copy(),
+    )
 
 
 def parallel_training(epochs, X, y, dense, dense2, relu, softmax) -> Tuple:
@@ -155,10 +168,21 @@ def parallel_training(epochs, X, y, dense, dense2, relu, softmax) -> Tuple:
     # Train the model in parallel using ProcessPoolExecutor
     with ProcessPoolExecutor(max_workers=cpu_count) as executor:
         # Submit the training tasks to the executor
-        futures = [executor.submit(train_epoch, epoch, X, y, dense, dense2, relu, softmax) for epoch in range(epochs)]
+        futures = [
+            executor.submit(train_epoch, epoch, X, y, dense, dense2, relu, softmax)
+            for epoch in range(epochs)
+        ]
         # Iterate over the completed futures to find the best model metrics
         for future in as_completed(futures):
-            __best_epoch, __lowest_loss, __best_accuracy, __best_weights, __best_biases, __best_weights2, __best_biases2 = future.result()
+            (
+                __best_epoch,
+                __lowest_loss,
+                __best_accuracy,
+                __best_weights,
+                __best_biases,
+                __best_weights2,
+                __best_biases2,
+            ) = future.result()
             # Evaluate the best model based on the lowest loss and highest accuracy
             if __lowest_loss < lowest_loss or __best_accuracy > best_accuracy:
                 lowest_loss = __lowest_loss
@@ -168,5 +192,12 @@ def parallel_training(epochs, X, y, dense, dense2, relu, softmax) -> Tuple:
                 best_biases = __best_biases
                 best_weights2 = __best_weights2
                 best_biases2 = __best_biases2
-    return best_epoch, lowest_loss, best_accuracy, best_weights, best_biases, best_weights2, best_biases2
-
+    return (
+        best_epoch,
+        lowest_loss,
+        best_accuracy,
+        best_weights,
+        best_biases,
+        best_weights2,
+        best_biases2,
+    )

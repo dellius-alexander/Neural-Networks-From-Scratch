@@ -22,7 +22,10 @@ import plotly.graph_objects as go
 from sklearn.manifold import TSNE
 from typing import List, Tuple
 
-def create_word_embeddings(__sentences: List[str]) -> Tuple[pandas.DataFrame, go.Figure]:
+
+def create_word_embeddings(
+    __sentences: List[str],
+) -> Tuple[pandas.DataFrame, go.Figure]:
     """Create word embeddings for the given sentences and visualize them in 3D.
 
     :param __sentences: List[str]: The list of sentences to create word embeddings for.
@@ -54,18 +57,20 @@ def create_word_embeddings(__sentences: List[str]) -> Tuple[pandas.DataFrame, go
 
     # Apply t-SNE to reduce the dimensionality of the embeddings to 3D
     n_samples = embeddings.shape[0]
-    perplexity = min(30, n_samples - 1)  # Ensure perplexity is less than the number of samples
+    perplexity = min(
+        30, n_samples - 1
+    )  # Ensure perplexity is less than the number of samples
     tsne = TSNE(n_components=3, perplexity=perplexity)
     embeddings_3d = tsne.fit_transform(embeddings)
 
     # Create a DataFrame of the 3D embeddings
-    __df = pandas.DataFrame(embeddings_3d, columns=['x', 'y', 'z'], dtype=float)
+    __df = pandas.DataFrame(embeddings_3d, columns=["x", "y", "z"], dtype=float)
 
     # Create a 3D scatter plot of the embeddings
     unique_words = [int_to_word[int(i)] for i in numpy.unique(embeddings.flatten())]
-    __fig = px.scatter_3d(__df, x='x', y='y', z='z', text=unique_words)
+    __fig = px.scatter_3d(__df, x="x", y="y", z="z", text=unique_words)
     __fig.update_traces(marker=dict(size=5))
-    __fig.update_layout(title='Word Embeddings in 3D', title_font_size=30)
+    __fig.update_layout(title="Word Embeddings in 3D", title_font_size=30)
 
     return __df, __fig
 
@@ -73,14 +78,14 @@ def create_word_embeddings(__sentences: List[str]) -> Tuple[pandas.DataFrame, go
 if __name__ == "__main__":
     # Example usage
     sentences = [
-        'cat eat fish',
-        'cat eat meat',
-        'dog eat meat',
-        'dog eat bone',
-        'fish eat worm',
-        'fish eat insect',
-        'bird eat worm',
-        'bird eat insect'
+        "cat eat fish",
+        "cat eat meat",
+        "dog eat meat",
+        "dog eat bone",
+        "fish eat worm",
+        "fish eat insect",
+        "bird eat worm",
+        "bird eat insect",
     ]
     df, fig = create_word_embeddings(sentences)
     fig.show()

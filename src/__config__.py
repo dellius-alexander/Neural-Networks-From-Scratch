@@ -60,6 +60,7 @@ import time
 import os
 import json
 from dotenv import load_dotenv, find_dotenv, dotenv_values
+
 # --------------------------------------------------------------
 # Load environment variables from .env file
 try:
@@ -91,7 +92,9 @@ LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 # --------------------------------------------------------------
 # Print the environment variables if log level is DEBUG
 if LOG_LEVEL == "DEBUG":
-    print(f"Environment Variables: \n{json.dumps(dotenv_values(), indent=2, sort_keys=True)}")
+    print(
+        f"Environment Variables: \n{json.dumps(dotenv_values(), indent=2, sort_keys=True)}"
+    )
     print(f"ROOT_DIR: {ROOT_DIR}")
     print(f"LOG_DIR: {LOG_DIR}")
     print(f"LOG_FILE: {LOG_FILE}")
@@ -169,10 +172,11 @@ os.environ.setdefault("LOG_FILE", LOG_FILE)
 os.environ.setdefault("LOG_LEVEL", LOG_LEVEL)
 os.environ.setdefault("LOG_DIR", LOG_DIR)
 # --------------------------------------------------------------
-print(f"Loaded Environment Variables: \n{
+print(
+    f"""Loaded Environment Variables: \n{
 json.dumps(
     dotenv_values(), 
     indent=2, 
     sort_keys=True,
-)}")
-# --------------------------------------------------------------
+)}"""
+)

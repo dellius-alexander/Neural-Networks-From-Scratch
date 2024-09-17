@@ -15,8 +15,7 @@ log = getLogger(__name__)
 Matrix = Annotated[Union[List, np.ndarray], "A matrix of values"]
 
 
-def cross_entropy_loss(y_true: Matrix,
-                       y_pred: Matrix) -> Tuple[any, Matrix]:
+def cross_entropy_loss(y_true: Matrix, y_pred: Matrix) -> Tuple[any, Matrix]:
     """
     Calculate the cross-entropy loss between true labels and predicted probabilities.
 
@@ -82,8 +81,9 @@ def cross_entropy_loss(y_true: Matrix,
     return __loss__, np.array(__losses__)
 
 
-def sort_cross_entropy_loss(__predicted_probs: np.ndarray, __cross_entropy_losses: np.ndarray) -> tuple[
-    np.ndarray, np.ndarray]:
+def sort_cross_entropy_loss(
+    __predicted_probs: np.ndarray, __cross_entropy_losses: np.ndarray
+) -> tuple[np.ndarray, np.ndarray]:
     """
     Sort the cross-entropy losses based on the probability predictions.
 
@@ -151,7 +151,9 @@ def normalize_values(n_array: ndarray) -> ndarray:
     return n_array / np.linalg.norm(n_array)
 
 
-def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[ndarray, ndarray]:
+def convert_mismatch_shape(
+    y_true: ndarray, y_pred: ndarray, **kwargs
+) -> Tuple[ndarray, ndarray]:
     """
     Convert the shapes of the true labels and predicted probabilities to be compatible.
 
@@ -162,28 +164,33 @@ def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[
 
     __error_counter = kwargs.get("error_counter", 0)
     __max_retries = kwargs.get("max_retries", 6)
-    __mismatch_type = kwargs.get("mismatch_type", {
-        "transpose": {'success': False, 'shape': None, 'message': 'None'},
-        "reshape": {'success': False, 'shape': None, 'message': 'None'},
-        "concatenate": {'success': False, 'shape': None, 'message': 'None'},
-        "broadcast": {'success': False, 'shape': None, 'message': 'None'},
-        "expand_dims": {'success': False, 'shape': None, 'message': 'None'},
-        "squeeze": {'success': False, 'shape': None, 'message': 'None'},
-    })
-    __inputs = {
-        "y_true": y_true,
-        "y_pred": y_pred
-    }
+    __mismatch_type = kwargs.get(
+        "mismatch_type",
+        {
+            "transpose": {"success": False, "shape": None, "message": "None"},
+            "reshape": {"success": False, "shape": None, "message": "None"},
+            "concatenate": {"success": False, "shape": None, "message": "None"},
+            "broadcast": {"success": False, "shape": None, "message": "None"},
+            "expand_dims": {"success": False, "shape": None, "message": "None"},
+            "squeeze": {"success": False, "shape": None, "message": "None"},
+        },
+    )
+    __inputs = {"y_true": y_true, "y_pred": y_pred}
 
     try:
         # Ensure the predicted probabilities are valid (in the range [0, 1])
         if np.any(y_pred < 0) or np.any(y_pred > 1):
-            raise ValueError(f"""Predicted probabilities must be between 0 and 1.
+            raise ValueError(
+                f"""Predicted probabilities must be between 0 and 1.
                                 \nPredicted probabilities: \n{y_pred.shape}
-                                \nTrue labels: \n{y_true.shape}""")
+                                \nTrue labels: \n{y_true.shape}"""
+            )
 
         # 1. Attempt to reshape if the shapes don't match
-        if y_true.shape != y_pred.shape and __mismatch_type["reshape"]['message'] == 'None':
+        if (
+            y_true.shape != y_pred.shape
+            and __mismatch_type["reshape"]["message"] == "None"
+        ):
             try:
                 # Reshape the true labels by inverting the shape to possibly match the predicted probabilities
                 y_true = np.reshape(y_true, (y_pred.shape[1], y_pred.shape[0]))
@@ -191,16 +198,25 @@ def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[
 
                 # Check if the shapes are compatible again
                 if y_true.shape != y_pred.shape:
-                    __mismatch_type["reshape"] = {'success': False, 'shape': y_true.shape, 'message': 'Reshape failed'}
-                    raise InvalidShapeException(f"""Shapes of true labels and predicted probabilities must be compatible.
+                    __mismatch_type["reshape"] = {
+                        "success": False,
+                        "shape": y_true.shape,
+                        "message": "Reshape failed",
+                    }
+                    raise InvalidShapeException(
+                        f"""Shapes of true labels and predicted probabilities must be compatible.
                     \nTrue Labels Shape: {y_true.shape}
-                    \nPredicted Probabilities Shape: {y_pred.shape}""")
+                    \nPredicted Probabilities Shape: {y_pred.shape}"""
+                    )
             except ValueError as e:
                 log.error(e)
                 raise e
 
         # 2. Attempt to transpose if the shapes don't match
-        if y_true.shape != y_pred.shape and __mismatch_type["transpose"]['message'] == 'None':
+        if (
+            y_true.shape != y_pred.shape
+            and __mismatch_type["transpose"]["message"] == "None"
+        ):
             try:
                 # Transpose the true labels to match the predicted probabilities
                 y_true = np.transpose(y_true)
@@ -208,16 +224,25 @@ def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[
 
                 # Check if the shapes are compatible again
                 if y_true.shape != y_pred.shape:
-                    __mismatch_type["transpose"] = {'success': False, 'shape': y_true.shape, 'message': 'Transpose failed'}
-                    raise InvalidShapeException(f"""Shapes of true labels and predicted probabilities must be compatible.
+                    __mismatch_type["transpose"] = {
+                        "success": False,
+                        "shape": y_true.shape,
+                        "message": "Transpose failed",
+                    }
+                    raise InvalidShapeException(
+                        f"""Shapes of true labels and predicted probabilities must be compatible.
                     \nTrue Labels Shape: {y_true.shape}
-                    \nPredicted Probabilities Shape: {y_pred.shape}""")
+                    \nPredicted Probabilities Shape: {y_pred.shape}"""
+                    )
             except ValueError as e:
                 log.error(e)
                 raise e
 
         # 3. Attempt to concatenate if the shapes don't match
-        if y_true.shape != y_pred.shape and __mismatch_type["concatenate"]['message'] == 'None':
+        if (
+            y_true.shape != y_pred.shape
+            and __mismatch_type["concatenate"]["message"] == "None"
+        ):
             try:
                 # Concatenate the true labels to match the predicted probabilities
                 y_true = np.concatenate(y_true, axis=0)
@@ -225,17 +250,25 @@ def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[
 
                 # Check if the shapes are compatible again
                 if y_true.shape != y_pred.shape:
-                    __mismatch_type["concatenate"] = {'success': False, 'shape': y_true.shape,
-                                                      'message': 'Concatenate failed'}
-                    raise InvalidShapeException(f"""Shapes of true labels and predicted probabilities must be compatible.
+                    __mismatch_type["concatenate"] = {
+                        "success": False,
+                        "shape": y_true.shape,
+                        "message": "Concatenate failed",
+                    }
+                    raise InvalidShapeException(
+                        f"""Shapes of true labels and predicted probabilities must be compatible.
                     \nTrue Labels Shape: {y_true.shape}
-                    \nPredicted Probabilities Shape: {y_pred.shape}""")
+                    \nPredicted Probabilities Shape: {y_pred.shape}"""
+                    )
             except ValueError as e:
                 log.error(e)
                 raise e
 
         # 4. Attempt to broadcast if the shapes don't match
-        if y_true.shape != y_pred.shape and __mismatch_type["broadcast"]['message'] == 'None':
+        if (
+            y_true.shape != y_pred.shape
+            and __mismatch_type["broadcast"]["message"] == "None"
+        ):
             try:
                 # Broadcast the true labels to match the predicted probabilities
                 y_true = np.broadcast(y_true, y_pred)
@@ -243,16 +276,25 @@ def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[
 
                 # Check if the shapes are compatible again
                 if y_true.shape != y_pred.shape:
-                    __mismatch_type["broadcast"] = {'success': False, 'shape': y_true.shape, 'message': 'Broadcast failed'}
-                    raise InvalidShapeException(f"""Shapes of true labels and predicted probabilities must be compatible.
+                    __mismatch_type["broadcast"] = {
+                        "success": False,
+                        "shape": y_true.shape,
+                        "message": "Broadcast failed",
+                    }
+                    raise InvalidShapeException(
+                        f"""Shapes of true labels and predicted probabilities must be compatible.
                     \nTrue Labels Shape: {y_true.shape}
-                    \nPredicted Probabilities Shape: {y_pred.shape}""")
+                    \nPredicted Probabilities Shape: {y_pred.shape}"""
+                    )
             except ValueError as e:
                 log.error(e)
                 raise e
 
         # 5. Attempt to expand dimensions if the shapes don't match
-        if y_true.shape != y_pred.shape and __mismatch_type["expand_dims"]['message'] == 'None':
+        if (
+            y_true.shape != y_pred.shape
+            and __mismatch_type["expand_dims"]["message"] == "None"
+        ):
             try:
                 # Expand dimensions of the true labels to match the predicted probabilities
                 y_true = np.expand_dims(y_true, axis=0)
@@ -260,17 +302,25 @@ def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[
 
                 # Check if the shapes are compatible again
                 if y_true.shape != y_pred.shape:
-                    __mismatch_type["expand_dims"] = {'success': False, 'shape': y_true.shape,
-                                                      'message': 'Expand dims failed'}
-                    raise InvalidShapeException(f"""Shapes of true labels and predicted probabilities must be compatible.
+                    __mismatch_type["expand_dims"] = {
+                        "success": False,
+                        "shape": y_true.shape,
+                        "message": "Expand dims failed",
+                    }
+                    raise InvalidShapeException(
+                        f"""Shapes of true labels and predicted probabilities must be compatible.
                     \nTrue Labels Shape: {y_true.shape}
-                    \nPredicted Probabilities Shape: {y_pred.shape}""")
+                    \nPredicted Probabilities Shape: {y_pred.shape}"""
+                    )
             except ValueError as e:
                 log.error(e)
                 raise e
 
         # 6. Attempt to squeeze if the shapes don't match
-        if y_true.shape != y_pred.shape and __mismatch_type["squeeze"]['message'] == 'None':
+        if (
+            y_true.shape != y_pred.shape
+            and __mismatch_type["squeeze"]["message"] == "None"
+        ):
             try:
                 # Squeeze the true labels to match the predicted probabilities
                 y_true = np.squeeze(y_true)
@@ -278,10 +328,16 @@ def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[
 
                 # Check if the shapes are compatible again
                 if y_true.shape != y_pred.shape:
-                    __mismatch_type["squeeze"] = {'success': False, 'shape': y_true.shape, 'message': 'Squeeze failed'}
-                    raise InvalidShapeException(f"""Shapes of true labels and predicted probabilities must be compatible.
+                    __mismatch_type["squeeze"] = {
+                        "success": False,
+                        "shape": y_true.shape,
+                        "message": "Squeeze failed",
+                    }
+                    raise InvalidShapeException(
+                        f"""Shapes of true labels and predicted probabilities must be compatible.
                     \nTrue Labels Shape: {y_true.shape}
-                    \nPredicted Probabilities Shape: {y_pred.shape}""")
+                    \nPredicted Probabilities Shape: {y_pred.shape}"""
+                    )
             except ValueError as e:
                 log.error(e)
                 raise e
@@ -290,7 +346,12 @@ def convert_mismatch_shape(y_true: ndarray, y_pred: ndarray, **kwargs) -> Tuple[
         if __error_counter < __max_retries:
             log.error(f"Error: {e}")
             log.info(f"Retrying... Attempt {__error_counter + 1}")
-            return convert_mismatch_shape(__inputs['y_true'], __inputs['y_pred'], error_counter=__error_counter + 1, max_retries=__max_retries)
+            return convert_mismatch_shape(
+                __inputs["y_true"],
+                __inputs["y_pred"],
+                error_counter=__error_counter + 1,
+                max_retries=__max_retries,
+            )
         else:
             raise RetryException(f"Maximum number of retries reached. \nError: {e}")
 

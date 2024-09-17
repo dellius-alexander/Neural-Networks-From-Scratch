@@ -20,7 +20,9 @@ class IDense(ABC):
     weights: Annotated[np.ndarray, "The weights of the layer"]
     biases: Annotated[np.ndarray, "The biases of the layer"]
     output: Annotated[np.ndarray, "The output values of the layer"] = None
-    dinputs: Annotated[np.ndarray, "The gradient of the loss with respect to the inputs"] = None
+    dinputs: Annotated[
+        np.ndarray, "The gradient of the loss with respect to the inputs"
+    ] = None
     dweights: Annotated[np.ndarray, "The gradients of the weights of the layer"] = None
     dbiases: Annotated[np.ndarray, "The gradients of the biases of the layer"] = None
     activation: Annotated[Any, "The activation function of the layer"] = None
@@ -163,7 +165,9 @@ class Dense(IDense):
         if isinstance(y_pred, pd.DataFrame) and isinstance(y_true, pd.DataFrame):
             return cross_entropy_loss(y_true.values.tolist(), y_pred.values.tolist())
         else:
-            raise ValueError(f"Invalid input types.\n y_pred: {type(y_pred)}\n y_true: {type(y_true)}")
+            raise ValueError(
+                f"Invalid input types.\n y_pred: {type(y_pred)}\n y_true: {type(y_true)}"
+            )
 
     def __repr__(self) -> str:
         """
@@ -187,6 +191,7 @@ if __name__ == "__main__":
     from src.utils.datasets import create_spiral_dataset
     from src.functions.activation import Softmax, ReLU
     import numpy as np
+
     # Initialize activation function
     softmax = Softmax()
     relu = ReLU()

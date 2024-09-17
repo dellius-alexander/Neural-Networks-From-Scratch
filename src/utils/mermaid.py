@@ -78,12 +78,16 @@ def display_image_from_file(path: str) -> DisplayHandle:
     :param path: (str): The path to the file containing the Mermaid graph
     :return: (DisplayHandle): The display handle for the graph
     """
-    with open(path, 'rb') as f:
+    with open(path, "rb") as f:
         graphbytes = f.read()
     return display(Image(graphbytes))
 
 
-def mm_save_as_png(graph: MermaidGraph, output_file_path: str, mode: str = "w", ) -> Path:
+def mm_save_as_png(
+    graph: MermaidGraph,
+    output_file_path: str,
+    mode: str = "w",
+) -> Path:
     """
     Save a Mermaid graph as a PNG file
     :param graph: (MermaidGraph): The Mermaid graph
@@ -105,10 +109,12 @@ def mm_save_as_png(graph: MermaidGraph, output_file_path: str, mode: str = "w", 
             "Accept-Encoding": "gzip, deflate, br",
             "Accept-Language": "en-US,en;q=0.9",
             "Connection": "keep-alive",
-            "Host": "mermaid.ink"
-        }
+            "Host": "mermaid.ink",
+        },
     )
-    assert response.status_code == 200, f"Failed to fetch image: {response.status_code}" # Ensure we get a good response
+    assert (
+        response.status_code == 200
+    ), f"Failed to fetch image: {response.status_code}"  # Ensure we get a good response
     # response.raise_for_status()  # Ensure we notice bad responses
     log.debug(f"Response status code: {response.status_code}")
 
@@ -132,7 +138,7 @@ def mm_save_as_png(graph: MermaidGraph, output_file_path: str, mode: str = "w", 
         raise ValueError(f"Invalid mode: {mode}")
 
     # Save the image as a PNG file
-    with open(output_file_path, 'wb') as f:
+    with open(output_file_path, "wb") as f:
         f.write(response.content)
         f.close()
     return output_file_path
@@ -146,6 +152,7 @@ def create_file_if_exists(path: str, **kwargs) -> str:
     :return: (str): The path to the new file
     """
     import os
+
     index = kwargs.get("index", 1)
 
     try:
@@ -384,6 +391,8 @@ flowchart LR
 """
 
     # Save the mermaid diagram
-    __file_path = mm_save_as_png(mermaid_diagram, '../../assets/images/hidden-layer-forward-pass.png')
+    __file_path = mm_save_as_png(
+        mermaid_diagram, "../../assets/images/hidden-layer-forward-pass.png"
+    )
     # Generate the mermaid diagram
     display_image_from_file(__file_path)

@@ -37,6 +37,7 @@ class Activation(ABC):
         - __call__(x: np.ndarray) -> np.ndarray: Computes the activation function for input x.
         - derivative(x: np.ndarray) -> np.ndarray: Computes the derivative of the activation function.
     """
+
     @abstractmethod
     def __call__(self, x: np.ndarray) -> np.ndarray:
         """The activation function.
@@ -203,6 +204,7 @@ class LeakyReLU(Activation):
         - __call__(x: np.ndarray) -> np.ndarray: Returns the input if positive; otherwise, returns alpha * input.
         - derivative(x: np.ndarray) -> np.ndarray: Returns 1 if the input is positive; otherwise, returns alpha.
     """
+
     def __init__(self, alpha=0.01):
         self.alpha = alpha
 
@@ -259,8 +261,10 @@ class Softmax(Activation):
         """
         try:
             if len(x) <= 1:
-                raise ValueError("The ndarray seems to empty. "
-                                 "Softmax derivative can not be run on empty array.")
+                raise ValueError(
+                    "The ndarray seems to empty. "
+                    "Softmax derivative can not be run on empty array."
+                )
         except ValueError as e:
             print(e)
         finally:
@@ -271,5 +275,5 @@ class Softmax(Activation):
 #     z = np.array([1, 2, 3])
 #     probabilities = Softmax()
 #     print(probabilities(z))
-    # [0.09003057 0.24472847 0.66524096]
-    # [0.09003057 0.24472847 0.66524096]
+# [0.09003057 0.24472847 0.66524096]
+# [0.09003057 0.24472847 0.66524096]

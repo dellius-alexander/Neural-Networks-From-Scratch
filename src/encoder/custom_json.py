@@ -14,6 +14,7 @@ log = getLogger(__name__)
 
 class CustomJSONEncoder(json.JSONEncoder):
     """Custom JSON encoder for serializing objects."""
+
     def default(self, obj: Any) -> Any:
         """Custom JSON encoder for serializing objects.
 
@@ -34,7 +35,9 @@ class CustomJSONEncoder(json.JSONEncoder):
             if isinstance(obj, ReferenceType):
                 # Add your desired custom serialization logic here
                 # For example, you could return only the referenced object's ID:
-                return obj.__dict__  # Replace '_id' with the actual attribute containing the ID.
+                return (
+                    obj.__dict__
+                )  # Replace '_id' with the actual attribute containing the ID.
             if isinstance(obj, timedelta):
                 # convert time delta to datetime
                 return (datetime.min + obj).time()
@@ -68,11 +71,11 @@ class CustomJSONEncoder(json.JSONEncoder):
             if isinstance(obj, type):
                 return obj.__name__
             # Handle objects has attribute "<attribute>" serialization
-            if hasattr(obj, 'to_dict'):
+            if hasattr(obj, "to_dict"):
                 return obj.to_dict()
-            if hasattr(obj, '__dict__'):
+            if hasattr(obj, "__dict__"):
                 return dict(obj.__dict__)
-            if hasattr(obj, 'body'):
+            if hasattr(obj, "body"):
                 return obj.body
             if hasattr(obj, "__iter__"):
                 return list(obj)
@@ -88,4 +91,6 @@ class CustomJSONEncoder(json.JSONEncoder):
             return super().default(obj)
         except Exception as e:
             return f"Error encoding object: {type(e)} \n{e}"
+
+
 # --------------------------------------------------------------

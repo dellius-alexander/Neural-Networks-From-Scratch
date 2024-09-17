@@ -9,9 +9,16 @@ from src.utils.logger import getLogger
 
 log = getLogger(__name__)
 JSONString = Annotated[str, json.loads, json.dumps, "A JSON string"]
-ConfigurationOptions = Annotated[dict, json.loads, json.dumps, "A dictionary of configuration options"]
-ConfigurationFile = Annotated[str, dict, JSONString, ConfigurationOptions,
-"Defaults to system config file, found in user home directory (~)."]
+ConfigurationOptions = Annotated[
+    dict, json.loads, json.dumps, "A dictionary of configuration options"
+]
+ConfigurationFile = Annotated[
+    str,
+    dict,
+    JSONString,
+    ConfigurationOptions,
+    "Defaults to system config file, found in user home directory (~).",
+]
 
 
 def generate_password_hash(__passwd_str: str):
@@ -34,15 +41,18 @@ def verify_password(__passwd_hash: str, __passwd_str: str):
     :return: bool: True if the password is correct, False otherwise
     """
     from jupyter_server.auth import passwd_check
+
     return passwd_check(__passwd_hash, __passwd_str)
 
 
 def write_password_hash_to_config(
-        __passwd_hash: str,
-        __config_file: Annotated[Union[str, JSONString],
-        "Defaults to system config file, found in user home directory (~)."] = \
-                "~/.jupyter/jupyter_notebook_config.json",
-        config_options: ConfigurationOptions = None) -> None:
+    __passwd_hash: str,
+    __config_file: Annotated[
+        Union[str, JSONString],
+        "Defaults to system config file, found in user home directory (~).",
+    ] = "~/.jupyter/jupyter_notebook_config.json",
+    config_options: ConfigurationOptions = None,
+) -> None:
     """
     Write the password hash to the Jupyter notebook server configuration file.
 
@@ -56,7 +66,6 @@ def write_password_hash_to_config(
     import pandas as pd
     import os
 
-
     # Check if configuration options are provided and merge them with the configuration file
     try:
         config_options = pd.DataFrame(config_options)
@@ -67,9 +76,10 @@ def write_password_hash_to_config(
     except:
         raise ValueError("Invalid configuration options provided")
 
-
     # Get user home directory path
-    __config_file_location = str(os.path.expanduser("~") + "/.jupyter/" + __config_file.split("/")[-1])
+    __config_file_location = str(
+        os.path.expanduser("~") + "/.jupyter/" + __config_file.split("/")[-1]
+    )
     log.debug(f"Config file in User home directory: {__config_file_location}")
     __config_file = __config_file_location
 
@@ -88,8 +98,7 @@ def write_password_hash_to_config(
     # __config_file.to_json(__config_file_location, orient="records")
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     log.info("Starting the application")
     # Create a password hash
     new_passwd = generate_password_hash("password")
@@ -98,5 +107,3 @@ if __name__ == '__main__':
     log.info(f"Password verification: {verify_password(new_passwd, 'password')}")
     # Write the password hash to the configuration file
     write_password_hash_to_config(new_passwd)
-
-
