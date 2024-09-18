@@ -52,7 +52,7 @@ class TestAccuracyInParallel(unittest.TestCase):
             epochs=self.epochs,
             X=self.inputs,
             y=self.y_true,
-           dense= self.dense,
+            dense=self.dense,
             dense2=self.dense2,
             relu=self.relu,
             softmax=self.softmax,

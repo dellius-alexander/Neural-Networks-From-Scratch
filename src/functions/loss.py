@@ -356,6 +356,3 @@ def convert_mismatch_shape(
             raise RetryException(f"Maximum number of retries reached. \nError: {e}")
 
     return y_true, y_pred
-
-
-

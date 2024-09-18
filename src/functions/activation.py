@@ -269,4 +269,3 @@ class Softmax(Activation):
             print(e)
         finally:
             return x * (1 - x)
-

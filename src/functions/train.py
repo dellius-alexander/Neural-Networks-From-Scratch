@@ -63,13 +63,15 @@ def train_model(
 """Parallel Training of Neural Networks with Ray Tune."""
 
 
-def train_epoch(epoch: int,
-        X: np.ndarray,
-        y: np.ndarray,
-        dense: Dense,
-        dense2: Dense,
-        relu: ReLU,
-        softmax: Softmax) -> tuple:
+def train_epoch(
+    epoch: int,
+    X: np.ndarray,
+    y: np.ndarray,
+    dense: Dense,
+    dense2: Dense,
+    relu: ReLU,
+    softmax: Softmax,
+) -> tuple:
     """Train the model for one epoch and return the epoch number,
     loss, accuracy, weights, and biases.
 
@@ -149,13 +151,14 @@ def train_epoch(epoch: int,
 
 
 def parallel_training(
-        epochs: int,
-        X: np.ndarray,
-        y: np.ndarray,
-        dense: Dense,
-        dense2: Dense,
-        relu: ReLU,
-        softmax: Softmax) -> tuple:
+    epochs: int,
+    X: np.ndarray,
+    y: np.ndarray,
+    dense: Dense,
+    dense2: Dense,
+    relu: ReLU,
+    softmax: Softmax,
+) -> tuple:
     """Train the model in parallel using ProcessPoolExecutor and return the
     best epoch, loss, accuracy, weights, and biases.
 

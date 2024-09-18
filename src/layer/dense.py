@@ -186,4 +186,3 @@ class Dense(IDense):
         :return: str: The string representation of the layer
         """
         return f"Dense Layer: {self.weights.shape[0]} inputs, {self.weights.shape[1]} neurons"
-
