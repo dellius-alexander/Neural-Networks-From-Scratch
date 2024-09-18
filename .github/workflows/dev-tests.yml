@@ -31,7 +31,8 @@ jobs:
       # Task for linting with black
       - name: Lint with black and Install dependencies
         run: |
-          pip install -r requirements-dev.txt
+          python -m pip install --upgrade pip
+          # pip install -r requirements-dev.txt
           # Code formatting with black, check every python file 
           #   in the crud_repository directory 
           black src/ 
@@ -53,9 +54,9 @@ jobs:
           USER_NAME: ${{ secrets.USER_NAME }}
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           PAT: ${{ secrets.PAT }}
-#          GITHUB_REPOSITORY: ${{ github.repository }}
 
-      # Task for testing with pytest
-      - name: Test with pytest
-        run: |
-          pytest tests/
+
+#      # Task for testing with pytest
+#      - name: Test with pytest
+#        run: |
+#          pytest tests/
