@@ -7,6 +7,7 @@ from src.layer.dense import Dense
 from src.utils.datasets import create_spiral_dataset
 from src.functions.activation import Softmax, ReLU
 
+
 class TestLossFunction(unittest.TestCase):
 
     def setUp(self):
@@ -61,5 +62,6 @@ class TestLossFunction(unittest.TestCase):
         predicted_class = np.argmax(predictions, axis=1)
         print(f"Predicted Class: {predicted_class.shape}")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
