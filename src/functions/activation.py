@@ -270,10 +270,3 @@ class Softmax(Activation):
         finally:
             return x * (1 - x)
 
-
-# if __name__ == "__main__":
-#     z = np.array([1, 2, 3])
-#     probabilities = Softmax()
-#     print(probabilities(z))
-# [0.09003057 0.24472847 0.66524096]
-# [0.09003057 0.24472847 0.66524096]
