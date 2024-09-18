@@ -51,9 +51,8 @@ jobs:
           if [ -f .git/index.lock ]; then
             rm .git/index.lock || echo "No lock file to remove"
           fi
-
-          git add .  || echo "No file changes to commit"
-          git commit -m "Auto-format code with black" || echo "No commit to make"
+          
+          git commit -m "Auto-format code with black" -a || echo "No changes to commit"
           git push origin refs/heads/main -f || echo "No push to make"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
