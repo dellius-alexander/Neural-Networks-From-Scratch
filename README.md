@@ -3,7 +3,6 @@
 ![Python 3.9](https://img.shields.io/badge/Python-3.9-blue)
 ![Python 3.10](https://img.shields.io/badge/Python-3.10-blue)
 ![Python 3.11](https://img.shields.io/badge/Python-3.11-blue)
-![Python 3.12](https://img.shields.io/badge/Python-3.12-blue)
 
 ---
 
