@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ "3.9" ]
+        python-version: [ "3.9", "3.10", "3.11" ]
     steps:
       # Set up Python
       - name: Set up Python ${{ matrix.python-version }}
@@ -63,7 +63,7 @@ jobs:
           PAT: ${{ secrets.PAT }}
 
 
-#      # Task for testing with pytest
-#      - name: Test with pytest
-#        run: |
-#          pytest tests/
+      # Task for testing with pytest
+      - name: Test with pytest
+        run: |
+          pytest tests/
