@@ -43,17 +43,17 @@ jobs:
       - name: Configure Git user, Commit and push changes
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          git config --global user.name 'github-actions[bot]' || echo "No name to set"
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com' || echo "No email to set"
-          git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} || echo "No remote to set"
+          git config --global user.name 'github-actions[bot]' || echo "No name to set."
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com' || echo "No email to set."
+          git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} || echo "No remote to set."
 
           # Remove lock file if it exists
           if [ -f .git/index.lock ]; then
-            rm .git/index.lock || echo "No lock file to remove"
+            rm .git/index.lock || echo "No lock file to remove."
           fi
           
-          git commit -m "Auto-format code with black" -a || echo "No changes to commit"
-          git push origin refs/heads/main -f || echo "No push to make"
+          git commit -m "Auto-format code with black" -a || echo "No changes to commit after auto-format vode with black."
+          git push origin refs/heads/main -f || echo "No push to make."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USER_NAME: ${{ secrets.USER_NAME }}
