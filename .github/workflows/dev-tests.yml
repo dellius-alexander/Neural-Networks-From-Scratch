@@ -44,6 +44,8 @@ jobs:
       - name: Configure Git user, Commit and push changes
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
+          git config --global user.name ${USER_NAME} &2>/dev/null
+          git config --global user.email ${USER_EMAIL} &2>/dev/null
           git remote set-url origin https://${USER_NAME}:${PAT}@github.com/${GITHUB_REPOSITORY} &2>/dev/null
           git add . &2>/dev/null
           git commit -m "Auto-format code with black" &2>/dev/null
