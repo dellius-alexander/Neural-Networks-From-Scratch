@@ -110,16 +110,16 @@ class TestAccuracy(unittest.TestCase):
                 best_biases2 = self.dense2.biases.copy()
 
             # Print the best weights and biases when the epoch is complete
-            if epoch == self.epochs - 1:
-                print(f"Total Epochs: {self.epochs}")
-                print(
-                    f"Best Epoch: {best_epoch}, Best Loss: {lowest_loss:.7f}, Best Accuracy: {best_accuracy:.7f}"
-                )
-                print(f"Best Weights Layer 1: \n{best_weights}")
-                print(f"Best Biases Layer 1: \n{best_biases}")
-                print(f"Best Weights Layer 2: \n{best_weights2}")
-                print(f"Best Biases Layer 2: \n{best_biases2}")
-                print(f"Duration: {time.time() - self.start_time}")
+            # if epoch == self.epochs - 1:
+        print(f"Total Epochs: {self.epochs}")
+        print(
+            f"Best Epoch: {best_epoch}, Best Loss: {lowest_loss:.7f}, Best Accuracy: {best_accuracy:.7f}"
+        )
+        print(f"Best Weights Layer 1: \n{best_weights}")
+        print(f"Best Biases Layer 1: \n{best_biases}")
+        print(f"Best Weights Layer 2: \n{best_weights2}")
+        print(f"Best Biases Layer 2: \n{best_biases2}")
+        print(f"Duration: {time.time() - self.start_time}")
 
 
 if __name__ == "__main__":

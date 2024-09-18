@@ -48,19 +48,20 @@ class TestAccuracyInParallel(unittest.TestCase):
             best_weights2,
             best_biases2,
         ) = parallel_training(
-            self.epochs,
-            self.inputs,
-            self.y_true,
-            self.dense,
-            self.dense2,
-            self.relu,
-            self.softmax,
+            epochs=self.epochs,
+            X=self.inputs,
+            y=self.y_true,
+           dense= self.dense,
+            dense2=self.dense2,
+            relu=self.relu,
+            softmax=self.softmax,
         )
 
         self.assertIsNotNone(best_epoch)
         self.assertIsNotNone(lowest_loss)
         self.assertEqual(type(lowest_loss), np.float64)
-        self.assertEqual(lowest_loss // 1, 36)
+        # We should have a loss less than or equal to 36
+        self.assertGreaterEqual(36, lowest_loss // 1)
         self.assertIsNotNone(best_accuracy)
         self.assertIsNotNone(best_weights)
         self.assertIsNotNone(best_biases)

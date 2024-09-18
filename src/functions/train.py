@@ -5,7 +5,8 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 import numpy as np
 from scipy.ndimage import zoom
 
-from src.functions.activation import Activation
+from src.functions.activation import Activation, Softmax, ReLU
+from src.layer.dense import Dense
 from src.utils.logger import getLogger
 
 log = getLogger(__name__)
@@ -62,7 +63,13 @@ def train_model(
 """Parallel Training of Neural Networks with Ray Tune."""
 
 
-def train_epoch(epoch, X, y, dense, dense2, relu, softmax) -> tuple:
+def train_epoch(epoch: int,
+        X: np.ndarray,
+        y: np.ndarray,
+        dense: Dense,
+        dense2: Dense,
+        relu: ReLU,
+        softmax: Softmax) -> tuple:
     """Train the model for one epoch and return the epoch number,
     loss, accuracy, weights, and biases.
 
@@ -141,7 +148,14 @@ def train_epoch(epoch, X, y, dense, dense2, relu, softmax) -> tuple:
     )
 
 
-def parallel_training(epochs, X, y, dense, dense2, relu, softmax) -> tuple:
+def parallel_training(
+        epochs: int,
+        X: np.ndarray,
+        y: np.ndarray,
+        dense: Dense,
+        dense2: Dense,
+        relu: ReLU,
+        softmax: Softmax) -> tuple:
     """Train the model in parallel using ProcessPoolExecutor and return the
     best epoch, loss, accuracy, weights, and biases.
 
