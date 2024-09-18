@@ -98,7 +98,9 @@ class TestAccuracy(unittest.TestCase):
 
             # Check if the loss is lower than the previous lowest loss
             if avg_loss < lowest_loss:
-                print(f"Epoch: {epoch}, Next Lowest Loss: {avg_loss:.7f}, Next Highest Accuracy: {accuracy:.7f}")
+                print(
+                    f"Epoch: {epoch}, Next Lowest Loss: {avg_loss:.7f}, Next Highest Accuracy: {accuracy:.7f}"
+                )
                 best_epoch = epoch
                 lowest_loss = avg_loss
                 best_accuracy = accuracy
@@ -110,7 +112,9 @@ class TestAccuracy(unittest.TestCase):
             # Print the best weights and biases when the epoch is complete
             if epoch == self.epochs - 1:
                 print(f"Total Epochs: {self.epochs}")
-                print(f"Best Epoch: {best_epoch}, Best Loss: {lowest_loss:.7f}, Best Accuracy: {best_accuracy:.7f}")
+                print(
+                    f"Best Epoch: {best_epoch}, Best Loss: {lowest_loss:.7f}, Best Accuracy: {best_accuracy:.7f}"
+                )
                 print(f"Best Weights Layer 1: \n{best_weights}")
                 print(f"Best Biases Layer 1: \n{best_biases}")
                 print(f"Best Weights Layer 2: \n{best_weights2}")
