@@ -10,7 +10,7 @@
 
 ---
 
-### Table of Contents
+## Table of Contents
 
 - [Introduction](#introduction)
   - [Neuroscience](#neuroscience)
@@ -19,6 +19,8 @@
 - [Loss Functions](./notebooks/LossFunctions.ipynb#cross-entropy-loss-function)
 - [Activation Functions](./notebooks/Activations.ipynb)
 - [Layer of Neurons from Scratch](./notebooks/LayerOfNeurons.ipynb)
+- [Accuracy](./notebooks/Accuracy.ipynb)
+- [Neural Network Visualization](./notebooks/NeuralNetworkVisualization.ipynb)
 - [References](#references)
 
 ---
