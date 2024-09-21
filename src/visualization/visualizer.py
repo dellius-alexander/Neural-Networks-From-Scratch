@@ -198,8 +198,7 @@ class InteractiveGraphStrategy(GraphStrategy):
             scene_camera=camera,
             margin=dict(l=0, r=0, t=0, b=0)
         )
-        # fig.show()
-        return fig
+        fig.show()
 
 
 # Visualization Factory for flexible visualization creation
@@ -226,4 +225,4 @@ if __name__ == "__main__":
     # Use InteractiveGraphStrategy to plot an interactive neural network graph
     interactive_strategy = InteractiveGraphStrategy(layer_nodes, weights, biases)
     visualization_factory = VisualizationFactory(interactive_strategy)
-    visualization_factory.visualize().show()
+    visualization_factory.visualize()
