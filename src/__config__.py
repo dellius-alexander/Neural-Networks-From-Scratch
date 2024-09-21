@@ -60,29 +60,8 @@ import time
 import os
 import json
 from dotenv import load_dotenv, find_dotenv, dotenv_values
+import logging
 
-# --------------------------------------------------------------
-# Load environment variables from .env file
-try:
-    for filename in [".env"]:
-        result = load_dotenv(
-            find_dotenv(
-                filename=filename,
-                raise_error_if_not_found=True,
-                usecwd=True,
-            )
-        )
-        if result:
-            print(f"Loaded environment variables.")
-            continue
-        else:
-            print(f"Environment variables not loaded.")
-except Exception as e:
-    if "File not found" in str(e):
-        print(f"Environment variables file not found.")
-        print(f"Continuing without loading environment variables.")
-    else:
-        print(f"Error loading environment variables: {e}")
 # --------------------------------------------------------------
 # Define and Create project environment
 # --------------------------------------------------------------
@@ -95,23 +74,23 @@ LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 # --------------------------------------------------------------
 # Print the environment variables if log level is DEBUG
 if LOG_LEVEL == "DEBUG":
-    print(
+    logging.debug(
         f"Environment Variables: \n{json.dumps(dotenv_values(), indent=2, sort_keys=True)}"
     )
-    print(f"ROOT_DIR: {ROOT_DIR}")
-    print(f"LOG_DIR: {LOG_DIR}")
-    print(f"LOG_FILE: {LOG_FILE}")
-    print(f"DATASETS_DIR: {DATASETS_DIR}")
-    print(f"MODELS_DIR: {MODELS_DIR}")
-    print(f"LOG_LEVEL: {LOG_LEVEL}")
+    logging.debug(f"ROOT_DIR: {ROOT_DIR}")
+    logging.debug(f"LOG_DIR: {LOG_DIR}")
+    logging.debug(f"LOG_FILE: {LOG_FILE}")
+    logging.debug(f"DATASETS_DIR: {DATASETS_DIR}")
+    logging.debug(f"MODELS_DIR: {MODELS_DIR}")
+    logging.debug(f"LOG_LEVEL: {LOG_LEVEL}")
 # --------------------------------------------------------------
 # Create directories if they do not exist
 for directory in [LOG_DIR, DATASETS_DIR, MODELS_DIR]:
     if not os.path.exists(directory):
         os.makedirs(directory, exist_ok=True, mode=0o777)
-        print(f"Created directory: {directory}")
+        logging.debug(f"Created directory: {directory}")
     else:
-        print(f"Directory already exists: {directory.split('/')[-1]}")
+        logging.debug(f"Directory already exists: {directory.split('/')[-1]}")
 # --------------------------------------------------------------
 # Define log colors
 log_colors_config = {
@@ -175,7 +154,7 @@ os.environ.setdefault("LOG_FILE", LOG_FILE)
 os.environ.setdefault("LOG_LEVEL", LOG_LEVEL)
 os.environ.setdefault("LOG_DIR", LOG_DIR)
 # --------------------------------------------------------------
-print(
+logging.debug(
     f"""Loaded Environment Variables: \n{
 json.dumps(
     dotenv_values(), 
@@ -183,3 +162,25 @@ json.dumps(
     sort_keys=True,
 )}"""
 )
+# --------------------------------------------------------------
+# Load environment variables from .env file
+try:
+    for filename in [".env"]:
+        result = load_dotenv(
+            find_dotenv(
+                filename=filename,
+                raise_error_if_not_found=True,
+                usecwd=True,
+            )
+        )
+        if result:
+            logging.debug(f"Loaded environment variables.")
+            continue
+        else:
+            logging.debug(f"Environment variables not loaded.")
+except Exception as e:
+    if "File not found" in str(e):
+        logging.debug(f"Environment variables file not found.")
+        logging.debug(f"Continuing without loading environment variables.")
+    else:
+        logging.debug(f"Error loading environment variables: {e}")
