@@ -22,6 +22,8 @@ import plotly.graph_objects as go
 from sklearn.manifold import TSNE
 from typing import List, Tuple
 
+from src.utils.plot import get_camera_view
+
 
 def create_word_embeddings(
     __sentences: List[str],
@@ -45,7 +47,7 @@ def create_word_embeddings(
 
     # Create a list of word sequences
     sequences = [[word_to_int[word] for word in sentence] for sentence in words]
-
+    print(f"Sequences: {sequences}")
     # Create a list of word embeddings
     embeddings = []
     for sequence in sequences:
@@ -54,7 +56,7 @@ def create_word_embeddings(
 
     # Convert the embeddings to a numpy array
     embeddings = numpy.array(embeddings)
-
+    print(f"Embeddings: \n{embeddings}")
     # Apply t-SNE to reduce the dimensionality of the embeddings to 3D
     n_samples = embeddings.shape[0]
     perplexity = min(
@@ -62,15 +64,64 @@ def create_word_embeddings(
     )  # Ensure perplexity is less than the number of samples
     tsne = TSNE(n_components=3, perplexity=perplexity)
     embeddings_3d = tsne.fit_transform(embeddings)
-
+    print(f"Embeddings 3D: \n{embeddings_3d}")
     # Create a DataFrame of the 3D embeddings
     __df = pandas.DataFrame(embeddings_3d, columns=["x", "y", "z"], dtype=float)
 
     # Create a 3D scatter plot of the embeddings
     unique_words = [int_to_word[int(i)] for i in numpy.unique(embeddings.flatten())]
-    __fig = px.scatter_3d(__df, x="x", y="y", z="z", text=unique_words)
-    __fig.update_traces(marker=dict(size=5))
-    __fig.update_layout(title="Word Embeddings in 3D", title_font_size=30)
+    print(f"Unique words: {len(unique_words)}")
+    print(f"Dataframe: \n{__df}")
+    if len(unique_words) > len(__df):
+        print("""
+        Error: The number of unique words does not match the number of embeddings.
+        This may be due to duplicate words in the sentences.
+        So, we will resize the larger list to match the smaller list.""")
+        # resize larger list to match the smaller list
+        unique_words = unique_words[: len(__df)]
+    # Create a 3D scatter plot of the embeddings
+    __fig = go.Figure()
+
+    # Add scatter plot for errors
+    __fig = px.scatter_3d(
+            __df,
+            text=unique_words,
+            x="x",
+            y="y",
+            z="z",
+        )
+
+    __fig.update_traces(
+        mode="lines+markers+text",
+        marker=dict(size=5, color=len(unique_words), opacity=0.8, colorscale="turbo"),
+        textfont_size=10,
+        textfont_color="black",
+        textfont_family="Arial",
+    )
+
+    # Set the camera view (orientation)
+    camera = get_camera_view("default")
+
+    # Adjust the camera view
+    __fig.update_layout(scene_camera=camera)
+
+    # Set plot title and labels
+    __fig.update_layout(
+        title={
+            "text": "Word Embeddings in 3D",
+            "y": 0.95,
+            "x": 0.5,
+            "xanchor": "center",
+            "yanchor": "top",
+            "font": {"size": 20},  # Adjust the size as needed
+        },
+        margin=dict(l=0, r=0, t=0, b=0),
+        scene=dict(
+            xaxis_title="Inputs Feature 1",
+            yaxis_title="Inputs Feature 2",
+            zaxis_title="Values",
+        )
+    )
 
     return __df, __fig
 
@@ -88,4 +139,5 @@ if __name__ == "__main__":
         "bird eat insect",
     ]
     df, fig = create_word_embeddings(sentences)
-    fig.show()
+    # fig.show()
+    print(f"Dataframe: \n{df}")
